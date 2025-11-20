@@ -66,39 +66,39 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400">
-      <div className="mx-auto max-w-4xl px-6 py-12">
+      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
         {/* Profile Header */}
-        <div className="mb-8 rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl border border-white/20">
-          <div className="flex flex-col items-center text-center mb-6">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+          <div className="flex flex-col items-center text-center mb-5 sm:mb-6">
             {/* Avatar */}
-            <div className="mb-4 h-24 w-24 rounded-full bg-gradient-to-br from-emerald-700 to-yellow-400 flex items-center justify-center shadow-lg">
-              <span className="text-3xl font-bold text-white">
+            <div className="mb-3 sm:mb-4 h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-to-br from-emerald-700 to-yellow-400 flex items-center justify-center shadow-lg">
+              <span className="text-2xl sm:text-3xl font-bold text-white">
                 {fullName.split(" ").map(n => n[0]).join("")}
               </span>
             </div>
             
             {/* Name and Email */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{fullName}</h1>
-            <p className="text-gray-600">{email}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{fullName}</h1>
+            <p className="text-sm sm:text-base text-gray-600">{email}</p>
           </div>
 
           {/* Wardrobe Summary */}
-          <div className="mb-6">
-            <h3 className="mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+          <div className="mb-5 sm:mb-6">
+            <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
               Wardrobe Summary
             </h3>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:grid-cols-5">
               {wardrobeSummary.map((item, index) => (
                 <div
                   key={index}
-                  className={`rounded-xl p-4 text-center ${item.color}`}
+                  className={`rounded-lg sm:rounded-xl p-3 sm:p-4 text-center ${item.color}`}
                 >
-                  <div className="text-2xl font-bold mb-1">{item.count}</div>
-                  <div className="text-sm font-medium">{item.label}</div>
+                  <div className="text-xl sm:text-2xl font-bold mb-0.5 sm:mb-1">{item.count}</div>
+                  <div className="text-xs sm:text-sm font-medium">{item.label}</div>
                 </div>
               ))}
             </div>
-            <div className="mt-4 text-sm text-gray-600">
+            <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600">
               <span className="font-semibold">Latest:</span> Gold Dupatta
             </div>
           </div>
@@ -106,29 +106,29 @@ export default function ProfilePage() {
           {/* Go to Wardrobe Button */}
           <Link
             href="/my-wardrobe"
-            className="w-full block rounded-lg bg-gradient-to-r from-emerald-700 to-emerald-600 py-3 text-center text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-500 transition-all shadow-md hover:shadow-lg"
+            className="w-full block rounded-lg bg-gradient-to-r from-emerald-700 to-emerald-600 py-2.5 sm:py-3 text-center text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-500 transition-all shadow-md hover:shadow-lg"
           >
             Go to Wardrobe
           </Link>
         </div>
 
         {/* Privacy & Settings */}
-        <div className="mb-8 rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl border border-white/20">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+          <h2 className="mb-5 sm:mb-6 text-xl sm:text-2xl font-bold text-gray-900">
             Privacy & Settings
           </h2>
 
           {/* Image Processing Toggle */}
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-gray-900">Image Processing</h3>
-              <p className="text-sm text-gray-600">
+          <div className="mb-5 sm:mb-6 flex items-center justify-between gap-4">
+            <div className="flex-1">
+              <h3 className="text-sm sm:text-base font-semibold text-gray-900">Image Processing</h3>
+              <p className="text-xs sm:text-sm text-gray-600">
                 Allow AI to analyze photos for recommendations
               </p>
             </div>
             <button
               onClick={() => setImageProcessing(!imageProcessing)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                 imageProcessing ? "bg-gradient-to-r from-emerald-700 to-emerald-600" : "bg-gray-300"
               }`}
             >
@@ -141,39 +141,39 @@ export default function ProfilePage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-3">
-            <button className="w-full rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <div className="space-y-2 sm:space-y-3">
+            <button className="w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
               Change Password
             </button>
-            <button className="w-full rounded-lg border border-red-300 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+            <button className="w-full rounded-lg border border-red-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
               Delete Account
             </button>
           </div>
         </div>
 
         {/* Profile Information */}
-        <div className="mb-8 rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl border border-white/20">
-          <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+          <div className="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 Profile Information
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Edit your personal info and style preferences
               </p>
             </div>
             <button
               onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
+              className="rounded-lg bg-gray-100 px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
             >
               {isEditingProfile ? "Cancel" : "Edit Profile"}
             </button>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {/* Full Name */}
             <div>
-              <label className="mb-2 block text-sm font-semibold text-gray-900">
+              <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                 Full Name
               </label>
               {isEditingProfile ? (
@@ -181,10 +181,10 @@ export default function ProfilePage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 />
               ) : (
-                <div className="rounded-lg bg-gray-50 px-4 py-3 text-gray-900">
+                <div className="rounded-lg bg-gray-50 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900">
                   {fullName}
                 </div>
               )}
@@ -192,10 +192,10 @@ export default function ProfilePage() {
 
             {/* Email Address */}
             <div>
-              <label className="mb-2 block text-sm font-semibold text-gray-900">
+              <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                 Email Address
               </label>
-              <div className="rounded-lg bg-gray-50 px-4 py-3 text-gray-900">
+              <div className="rounded-lg bg-gray-50 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900">
                 {email}
               </div>
             </div>
@@ -203,16 +203,16 @@ export default function ProfilePage() {
             {/* Gender */}
             {isEditingProfile && (
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Gender
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   {genderOptions.map((option) => (
                     <button
                       key={option.id}
                       type="button"
                       onClick={() => setGender(option.id)}
-                      className={`rounded-lg border-2 py-3 text-sm font-medium transition-all ${
+                      className={`rounded-lg border-2 py-2.5 sm:py-3 text-xs sm:text-sm font-medium transition-all ${
                         gender === option.id
                           ? "border-emerald-700 bg-gradient-to-r from-emerald-700/10 to-yellow-400/10 text-emerald-700"
                           : "border-gray-200 bg-white text-gray-700 hover:border-emerald-600"
@@ -228,13 +228,13 @@ export default function ProfilePage() {
             {/* Country */}
             {isEditingProfile && (
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Country
                 </label>
                 <select
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 >
                   {countries.map((c) => (
                     <option key={c} value={c}>
@@ -248,14 +248,14 @@ export default function ProfilePage() {
             {/* Height */}
             {isEditingProfile && (
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Height (cm)
                 </label>
                 <input
                   type="text"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 />
               </div>
             )}
@@ -263,23 +263,23 @@ export default function ProfilePage() {
             {/* Body Shape */}
             {isEditingProfile && (
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Body Shape
                 </label>
-                <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5">
                   {bodyShapeOptions.map((shape) => (
                     <button
                       key={shape.id}
                       type="button"
                       onClick={() => setBodyShape(shape.id)}
-                      className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
                         bodyShape === shape.id
                           ? "border-emerald-700 bg-gradient-to-r from-emerald-700/10 to-yellow-400/10"
                           : "border-gray-200 bg-white hover:border-emerald-600"
                       }`}
                     >
-                      <span className="text-2xl">{shape.icon}</span>
-                      <span className="text-xs font-medium text-gray-900 text-center">
+                      <span className="text-xl sm:text-2xl">{shape.icon}</span>
+                      <span className="text-xs font-medium text-gray-900 text-center leading-tight">
                         {shape.name}
                       </span>
                     </button>
@@ -291,23 +291,23 @@ export default function ProfilePage() {
             {/* Skin Tone */}
             {isEditingProfile && (
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Skin Tone
                 </label>
-                <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-5">
                   {skinToneOptions.map((tone) => (
                     <button
                       key={tone.id}
                       type="button"
                       onClick={() => setSkinTone(tone.id)}
-                      className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
                         skinTone === tone.id
                           ? "border-yellow-400 bg-gradient-to-r from-yellow-400/10 to-emerald-700/10"
                           : "border-gray-200 bg-white hover:border-yellow-400"
                       }`}
                     >
                       <div
-                        className="h-8 w-8 rounded-full border-2 border-gray-300"
+                        className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border-2 border-gray-300"
                         style={{ backgroundColor: tone.color }}
                       ></div>
                       <span className="text-xs font-medium text-gray-900">
@@ -321,7 +321,7 @@ export default function ProfilePage() {
 
             {/* Save Button */}
             {isEditingProfile && (
-              <button className="w-full rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 py-3 text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
+              <button className="w-full rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
                 Save Changes
               </button>
             )}
@@ -329,32 +329,32 @@ export default function ProfilePage() {
         </div>
 
         {/* AI Style Insights */}
-        <div className="mb-8 rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl border border-white/20">
-          <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+          <div className="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 AI Style Insights
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Personalized recommendations based on your wardrobe
               </p>
             </div>
-            <button className="rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 px-4 py-2 text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
+            <button className="rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
               Re-Analyze
             </button>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {/* Recommended Colors */}
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
                 Recommended Colors
               </h3>
               <div className="flex flex-wrap gap-2">
                 {aiInsights.colors.map((color, index) => (
                   <span
                     key={index}
-                    className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700"
+                    className="rounded-full bg-emerald-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-emerald-700"
                   >
                     {color}
                   </span>
@@ -364,14 +364,14 @@ export default function ProfilePage() {
 
             {/* Recommended Fits */}
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
                 Recommended Fits
               </h3>
               <div className="flex flex-wrap gap-2">
                 {aiInsights.fits.map((fit, index) => (
                   <span
                     key={index}
-                    className="rounded-full bg-yellow-100 px-4 py-2 text-sm font-medium text-yellow-700"
+                    className="rounded-full bg-yellow-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-yellow-700"
                   >
                     {fit}
                   </span>
@@ -381,14 +381,14 @@ export default function ProfilePage() {
 
             {/* Patterns */}
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
                 Patterns
               </h3>
               <div className="flex flex-wrap gap-2">
                 {aiInsights.patterns.map((pattern, index) => (
                   <span
                     key={index}
-                    className="rounded-full bg-purple-100 px-4 py-2 text-sm font-medium text-purple-700"
+                    className="rounded-full bg-purple-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-purple-700"
                   >
                     {pattern}
                   </span>
@@ -399,36 +399,36 @@ export default function ProfilePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mb-8 rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl border border-white/20">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+          <h2 className="mb-5 sm:mb-6 text-xl sm:text-2xl font-bold text-gray-900">
             Quick Actions
           </h2>
 
-          <div className="space-y-3 mb-6">
+          <div className="space-y-2 sm:space-y-3 mb-5 sm:mb-6">
             <Link
               href="/my-wardrobe"
-              className="block w-full rounded-lg border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="block w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Open Wardrobe
             </Link>
             <Link
               href="/get-started"
-              className="block w-full rounded-lg border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="block w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Generate Look
             </Link>
-            <button className="w-full rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <button className="w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
               Download Profile
             </button>
           </div>
 
           {/* Stats */}
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-gray-200 pt-5 sm:pt-6">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-600">Total Items:</span>
-              <span className="text-2xl font-bold text-gray-900">42</span>
+              <span className="text-xs sm:text-sm text-gray-600">Total Items:</span>
+              <span className="text-xl sm:text-2xl font-bold text-gray-900">42</span>
             </div>
-            <div className="mt-2 text-sm text-gray-600">
+            <div className="mt-2 text-xs sm:text-sm text-gray-600">
               <span className="font-medium">Last upload:</span> Gold Dupatta
             </div>
           </div>

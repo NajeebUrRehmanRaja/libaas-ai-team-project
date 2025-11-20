@@ -18,14 +18,14 @@ export default function Footer() {
 
   return (
     <footer className="w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400">
-      <div className="mx-auto max-w-7xl px-16 py-12">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:gap-16">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-16 lg:py-12">
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-3 lg:gap-16">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
               <div className="flex items-center">
                 <svg
-                  className="h-6 w-6 text-yellow-300"
+                  className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-300"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -38,11 +38,11 @@ export default function Footer() {
                   />
                 </svg>
               </div>
-              <Link href="/" className="text-2xl font-bold text-white">
+              <Link href="/" className="text-xl sm:text-2xl font-bold text-white">
                 LibassAI
               </Link>
             </div>
-            <p className="max-w-sm text-sm leading-relaxed text-white/90">
+            <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-white/90">
               Your intelligent wardrobe assistant, bringing the perfect blend of
               Pakistani fashion heritage and cutting-edge AI technology.
             </p>
@@ -50,13 +50,13 @@ export default function Footer() {
 
           {/* Product Links */}
           <div>
-            <h3 className="mb-4 text-lg font-bold text-white">Product</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-white">Product</h3>
+            <ul className="space-y-2 sm:space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/80 transition-colors hover:text-white"
+                    className="text-xs sm:text-sm text-white/80 transition-colors hover:text-white"
                   >
                     {link.name}
                   </Link>
@@ -67,13 +67,13 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="mb-4 text-lg font-bold text-white">Company</h3>
-            <ul className="space-y-3">
+            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-white">Company</h3>
+            <ul className="space-y-2 sm:space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/80 transition-colors hover:text-white"
+                    className="text-xs sm:text-sm text-white/80 transition-colors hover:text-white"
                   >
                     {link.name}
                   </Link>
@@ -84,11 +84,11 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-8 h-px bg-white/20"></div>
+        <div className="my-6 sm:my-8 h-px bg-white/20"></div>
 
         {/* Copyright */}
         <div className="text-center">
-          <p className="text-sm text-white/80">
+          <p className="text-xs sm:text-sm text-white/80">
             © {currentYear} LibassAI. All rights reserved. Crafted with passion
             for Pakistani fashion.
           </p>

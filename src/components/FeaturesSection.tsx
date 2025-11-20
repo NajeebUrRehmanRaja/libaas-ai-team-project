@@ -95,45 +95,45 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section className="w-full bg-gray-50 py-20 px-16">
+    <section className="w-full bg-gray-50 py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-16">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-900">
+        <div className="mb-10 sm:mb-12 lg:mb-16 text-center">
+          <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
             Intelligent Features for Your Style Journey
           </h2>
-          <p className="mx-auto max-w-2xl text-md leading-relaxed text-gray-600">
+          <p className="mx-auto max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-gray-600 px-4 sm:px-0">
             From wardrobe management to personalized recommendations, LibassAI
             brings the future of fashion to your fingertips.
           </p>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-2xl bg-white px-5 py-4 shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-white px-5 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 shadow-sm transition-all duration-300 hover:shadow-xl"
             >
               {/* Icon */}
-              <div className="mb-6 flex items-start justify-between">
+              <div className="mb-4 sm:mb-6 flex items-start justify-between">
                 <div
-                  className={`flex h-14 w-14 items-center justify-center rounded-xl ${feature.iconBg} text-white shadow-lg`}
+                  className={`flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl ${feature.iconBg} text-white shadow-lg transition-transform duration-300 group-hover:scale-110`}
                 >
                   {feature.icon}
                 </div>
                 <span
-                  className={`text-sm font-semibold ${feature.phaseColor}`}
+                  className={`text-xs sm:text-sm font-semibold ${feature.phaseColor} bg-yellow-50 px-2 py-1 rounded-full`}
                 >
                   {feature.phase}
                 </span>
               </div>
 
               {/* Content */}
-              <h3 className="mb-3 text-xl font-bold text-gray-900">
+              <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-gray-900">
                 {feature.title}
               </h3>
-              <p className="leading-relaxed text-gray-600">
+              <p className="text-sm sm:text-base leading-relaxed text-gray-600">
                 {feature.description}
               </p>
 

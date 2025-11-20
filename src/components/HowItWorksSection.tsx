@@ -69,41 +69,48 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section className="w-full bg-white py-20 px-16">
+    <section className="w-full bg-white py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-16">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-900">
+        <div className="mb-10 sm:mb-12 lg:mb-16 text-center">
+          <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
             How It Works
           </h2>
-          <p className="mx-auto max-w-2xl text-md leading-relaxed text-gray-600">
+          <p className="mx-auto max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-gray-600 px-4 sm:px-0">
             Three simple steps to transform your style experience with
             AI-powered fashion intelligence.
           </p>
         </div>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-12">
+        <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-3 lg:gap-12">
           {steps.map((step, index) => (
             <div key={index} className="relative flex flex-col items-center">
-              {/* Connector Arrow - Only between steps */}
+              {/* Connector Arrow - Only between steps on desktop */}
               {index < steps.length - 1 && (
-                <div className="absolute left-[60%] top-[80px] hidden h-0.5 w-[80%] md:block">
+                <div className="absolute left-[60%] top-[70px] sm:top-[80px] hidden h-0.5 w-[80%] md:block">
                   <div className="h-full w-full bg-gradient-to-r from-yellow-400 to-yellow-300"></div>
                 </div>
               )}
 
+              {/* Step Number Badge - Mobile */}
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 md:hidden">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">
+                  {index + 1}
+                </span>
+              </div>
+
               {/* Icon Container */}
-              <div className="relative z-10 mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-600 to-yellow-400 text-white shadow-lg">
+              <div className="relative z-10 mb-4 sm:mb-6 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-600 to-yellow-400 text-white shadow-lg transition-transform duration-300 hover:scale-110">
                 {step.icon}
               </div>
 
               {/* Content */}
-              <div className="text-center">
-                <h3 className="mb-3 text-xl font-bold text-gray-900">
+              <div className="text-center px-4 sm:px-2">
+                <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-gray-900">
                   {step.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-gray-600">
+                <p className="text-sm sm:text-base leading-relaxed text-gray-600">
                   {step.description}
                 </p>
               </div>

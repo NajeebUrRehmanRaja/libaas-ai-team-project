@@ -292,22 +292,23 @@ export default function MyWardrobePage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
       <div className="bg-white border-b border-gray-200">
-        <div className="mx-auto max-w-7xl px-6 py-6">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-4 lg:py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white font-bold text-lg">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-emerald-600 text-white font-bold text-sm sm:text-base lg:text-lg">
                 LA
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">LibaasAI</h1>
-                <p className="text-sm text-gray-600">Your digital wardrobe</p>
+                <h1 className="text-base sm:text-lg lg:text-2xl font-bold text-gray-900">LibaasAI</h1>
+                <p className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Your digital wardrobe</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <button className="rounded-lg bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
-                Upload Items
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+              <button className="rounded-lg bg-emerald-600 px-2.5 py-1.5 sm:px-4 sm:py-2 lg:px-6 lg:py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
+                <span className="hidden sm:inline">Upload Items</span>
+                <span className="sm:hidden">Upload</span>
               </button>
-              <button className="rounded-lg bg-white border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+              <button className="rounded-lg bg-white border border-gray-300 px-2.5 py-1.5 sm:px-4 sm:py-2 lg:px-6 lg:py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
                 Profile
               </button>
             </div>
@@ -316,20 +317,20 @@ export default function MyWardrobePage() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:py-8">
         {/* Filters Section */}
-        <div className="mb-8 bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Filter by:</h2>
-            <p className="text-sm text-gray-600">
+        <div className="mb-5 sm:mb-6 lg:mb-8 bg-white rounded-lg sm:rounded-xl border border-gray-200 p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h2 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">Filter by:</h2>
+            <p className="text-[10px] sm:text-xs lg:text-sm text-gray-600">
               Total: <span className="font-semibold text-emerald-600">{filteredItems.length}</span>
             </p>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4">
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full sm:w-auto rounded-lg border border-gray-300 px-3 py-2 sm:px-3.5 lg:px-4 text-xs sm:text-sm font-medium text-gray-700 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -340,7 +341,7 @@ export default function MyWardrobePage() {
             <select
               value={selectedStyle}
               onChange={(e) => setSelectedStyle(e.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full sm:w-auto rounded-lg border border-gray-300 px-3 py-2 sm:px-3.5 lg:px-4 text-xs sm:text-sm font-medium text-gray-700 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             >
               {styles.map((style) => (
                 <option key={style} value={style}>
@@ -353,14 +354,14 @@ export default function MyWardrobePage() {
               placeholder="Search wardrobe..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 min-w-[200px] rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full sm:flex-1 sm:min-w-[200px] rounded-lg border border-gray-300 px-3 py-2 sm:px-3.5 lg:px-4 text-xs sm:text-sm text-gray-700 placeholder-gray-400 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
         </div>
 
         {/* Upload Section */}
         <div
-          className={`mb-12 rounded-xl border-2 border-dashed bg-white p-12 text-center transition-all ${
+          className={`mb-6 sm:mb-8 lg:mb-12 rounded-lg sm:rounded-xl border-2 border-dashed bg-white p-5 sm:p-6 lg:p-8 xl:p-12 text-center transition-all ${
             isDragging
               ? "border-emerald-500 bg-emerald-50"
               : "border-gray-300 hover:border-emerald-400"
@@ -369,13 +370,13 @@ export default function MyWardrobePage() {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <h3 className="mb-2 text-xl font-semibold text-gray-900">
+          <h3 className="mb-2 text-base sm:text-lg lg:text-xl font-semibold text-gray-900">
             Drag & Drop to Upload
           </h3>
-          <p className="mb-6 text-sm text-gray-600">
+          <p className="mb-3 sm:mb-4 lg:mb-6 text-xs sm:text-sm text-gray-600 px-2 sm:px-4">
             Drop multiple images to add to your wardrobe. Filenames help auto-categorize for POC.
           </p>
-          <button className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
+          <button className="rounded-lg bg-emerald-600 px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 text-xs sm:text-sm font-semibold text-white hover:bg-emerald-700 transition-colors">
             Select Files
           </button>
         </div>
@@ -383,24 +384,24 @@ export default function MyWardrobePage() {
         {/* Wardrobe Items by Category */}
         {Object.entries(groupedItems).map(([category, items]) => (
           items.length > 0 && (
-            <div key={category} className="mb-12">
-              <div className="mb-6 flex items-center justify-between">
+            <div key={category} className="mb-6 sm:mb-8 lg:mb-12">
+              <div className="mb-3 sm:mb-4 lg:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">{category}</h2>
-                  <p className="text-sm text-gray-600">
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{category}</h2>
+                  <p className="text-[10px] sm:text-xs lg:text-sm text-gray-600">
                     Curated items in {category.toLowerCase()}
                   </p>
                 </div>
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-[10px] sm:text-xs lg:text-sm font-medium text-gray-600">
                   {items.length} {items.length === 1 ? "item" : "items"}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {items.map((item) => (
                   <div
                     key={item.id}
-                    className="group rounded-xl bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-all"
+                    className="group rounded-md sm:rounded-lg lg:rounded-xl bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-all"
                   >
                     {/* Image */}
                     <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden">
@@ -414,32 +415,32 @@ export default function MyWardrobePage() {
                           const parent = target.parentElement;
                           if (parent) {
                             parent.classList.add('bg-gradient-to-br', 'from-emerald-100', 'to-yellow-100', 'flex', 'items-center', 'justify-center');
-                            parent.innerHTML += '<svg class="h-12 w-12 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
+                            parent.innerHTML += '<svg class="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
                           }
                         }}
                       />
                       {/* Action Buttons */}
-                      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-100 shadow-sm">
+                      <div className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 lg:top-2 lg:right-2 flex gap-1 sm:gap-1.5 lg:gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="rounded sm:rounded-md lg:rounded-lg bg-white px-1.5 py-0.5 sm:px-2 sm:py-1 lg:px-3 lg:py-1.5 text-[9px] sm:text-[10px] lg:text-xs font-medium text-gray-700 hover:bg-gray-100 shadow-sm">
                           Edit
                         </button>
-                        <button className="rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 shadow-sm">
+                        <button className="rounded sm:rounded-md lg:rounded-lg bg-white px-1.5 py-0.5 sm:px-2 sm:py-1 lg:px-3 lg:py-1.5 text-[9px] sm:text-[10px] lg:text-xs font-medium text-red-600 hover:bg-red-50 shadow-sm">
                           Delete
                         </button>
                       </div>
                     </div>
 
                     {/* Details */}
-                    <div className="p-4">
-                      <h3 className="mb-1 font-semibold text-gray-900 text-sm">
+                    <div className="p-2 sm:p-3 lg:p-4">
+                      <h3 className="mb-0.5 sm:mb-1 font-semibold text-gray-900 text-[11px] sm:text-xs lg:text-sm line-clamp-1">
                         {item.name}
                       </h3>
-                      <p className="mb-3 text-xs text-gray-500">ID: {item.id}</p>
-                      <div className="flex flex-wrap gap-1">
+                      <p className="mb-1.5 sm:mb-2 lg:mb-3 text-[9px] sm:text-[10px] lg:text-xs text-gray-500">ID: {item.id}</p>
+                      <div className="flex flex-wrap gap-0.5 sm:gap-1">
                         {item.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700"
+                            className="rounded-full bg-gray-100 px-1.5 py-0.5 sm:px-2 sm:py-0.5 lg:py-1 text-[9px] sm:text-[10px] lg:text-xs font-medium text-gray-700"
                           >
                             {tag}
                           </span>
@@ -454,18 +455,18 @@ export default function MyWardrobePage() {
         ))}
 
         {/* Uncategorized Section */}
-        <div className="mb-12">
-          <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 sm:mb-8 lg:mb-12">
+          <div className="mb-3 sm:mb-4 lg:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Uncategorized</h2>
-              <p className="text-sm text-gray-600">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Uncategorized</h2>
+              <p className="text-[10px] sm:text-xs lg:text-sm text-gray-600">
                 Curated items in uncategorized
               </p>
             </div>
-            <span className="text-sm font-medium text-gray-600">0 items</span>
+            <span className="text-[10px] sm:text-xs lg:text-sm font-medium text-gray-600">0 items</span>
           </div>
-          <div className="rounded-xl bg-white border border-gray-200 p-12 text-center">
-            <p className="text-gray-500">No uncategorized items</p>
+          <div className="rounded-lg sm:rounded-xl bg-white border border-gray-200 p-6 sm:p-8 lg:p-12 text-center">
+            <p className="text-xs sm:text-sm lg:text-base text-gray-500">No uncategorized items</p>
           </div>
         </div>
       </div>
