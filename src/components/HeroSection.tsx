@@ -58,12 +58,12 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:gap-8 sm:pt-8 md:gap-16">
+            <div className="flex flex-row justify-around gap-4 pt-6">
               <div className="space-y-1">
                 <div className="text-3xl sm:text-4xl font-bold text-white">1000+</div>
                 <div className="text-xs sm:text-sm text-white/80">Active Users</div>
               </div>
-              <div className="h-px w-full bg-white/20 sm:h-auto sm:w-px"></div>
+              {/* <div className="h-px w-full bg-white/20 sm:h-auto sm:w-px"></div> */}
               <div className="space-y-1">
                 <div className="text-3xl sm:text-4xl font-bold text-white">50K+</div>
                 <div className="text-xs sm:text-sm text-white/80">Outfits Created</div>
@@ -72,7 +72,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Image */}
-          <div className="relative w-full hidden lg:block">
+          <div className="relative w-full">
             <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[400px] xl:h-[500px] overflow-hidden rounded-2xl shadow-2xl bg-gradient-to-br from-amber-50 via-rose-50 to-emerald-50 flex items-center justify-center">
               <img
                 src={heroImage.src}
