@@ -40,26 +40,38 @@ export default function Navbar() {
             Home
           </Link>
           <Link 
-            href="/features" 
+            href="/my-wardrobe" 
             className="text-sm font-medium text-black transition-colors hover:text-green-600"
           >
-            Features
+            My Wardrobe
           </Link>
           <Link 
-            href="/how-it-works" 
+            href="/get-started" 
             className="text-sm font-medium text-black transition-colors hover:text-green-600"
           >
-            How It Works
+            Generate Look
+          </Link>
+          <Link 
+            href="/profile" 
+            className="text-sm font-medium text-black transition-colors hover:text-green-600"
+          >
+            Profile
           </Link>
         </div>
 
-        {/* CTA Button */}
-        <div className="flex items-center gap-4">
+        {/* CTA Buttons */}
+        <div className="flex items-center gap-3">
           <Link
-            href="/get-started"
-            className="rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+            href="/signin"
+            className="rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-600 transition-colors hover:bg-green-50"
           >
-            Get Started
+            Sign In
+          </Link>
+          <Link
+            href="/signup"
+            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+          >
+            Sign Up
           </Link>
         </div>
       </div>
