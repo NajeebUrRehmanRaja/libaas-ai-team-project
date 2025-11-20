@@ -129,14 +129,14 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="mb-3 text-4xl font-bold text-gray-900">
+        <div className="mb-6 sm:mb-8 text-center">
+          <h1 className="mb-2 sm:mb-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
             Create Your Account
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base sm:text-lg text-gray-600 px-4 sm:px-0">
             Start your personalized styling journey with LibaasAI
           </p>
         </div>
@@ -144,13 +144,13 @@ export default function SignUpPage() {
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl bg-white p-8 shadow-sm border border-gray-200"
+          className="rounded-xl sm:rounded-2xl bg-white p-5 sm:p-6 lg:p-8 shadow-sm border border-gray-200"
         >
           {/* Full Name */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label
               htmlFor="fullName"
-              className="mb-2 block text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
             >
               Full Name <span className="text-red-500">*</span>
             </label>
@@ -161,15 +161,15 @@ export default function SignUpPage() {
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Enter your name"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
 
           {/* Email Address */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
             >
               Email Address <span className="text-red-500">*</span>
             </label>
@@ -180,15 +180,15 @@ export default function SignUpPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
 
           {/* Password */}
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label
               htmlFor="password"
-              className="mb-2 block text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
             >
               Password <span className="text-red-500">*</span>
             </label>
@@ -199,29 +199,31 @@ export default function SignUpPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Create a strong password"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
             />
           </div>
 
           {/* Gender */}
-          <div className="mb-6">
-            <label className="mb-2 block text-sm font-semibold text-gray-900">
+          <div className="mb-5 sm:mb-6">
+            <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
               Gender <span className="text-red-500">*</span>
             </label>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
               {genderOptions.map((option) => (
                 <button
                   key={option.id}
                   type="button"
                   onClick={() => setGender(option.id)}
-                  className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all ${
+                  className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-3 sm:p-4 transition-all ${
                     gender === option.id
                       ? "border-emerald-600 bg-emerald-50"
                       : "border-gray-200 bg-white hover:border-gray-300"
                   }`}
                 >
-                  {option.icon}
-                  <span className="text-sm font-medium text-gray-900">
+                  <div className="scale-75 sm:scale-100">
+                    {option.icon}
+                  </div>
+                  <span className="text-xs sm:text-sm font-medium text-gray-900">
                     {option.name}
                   </span>
                 </button>
@@ -233,21 +235,21 @@ export default function SignUpPage() {
           <button
             type="button"
             onClick={() => setShowOptionalDetails(!showOptionalDetails)}
-            className="mb-6 w-full flex items-center justify-between rounded-lg bg-yellow-50 p-4 text-left transition-all hover:bg-yellow-100"
+            className="mb-5 sm:mb-6 w-full flex items-center justify-between rounded-lg bg-yellow-50 p-3 sm:p-4 text-left transition-all hover:bg-yellow-100"
           >
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">✨</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-xl sm:text-2xl">✨</span>
               <div>
-                <p className="font-semibold text-gray-900">
+                <p className="text-sm sm:text-base font-semibold text-gray-900">
                   {showOptionalDetails ? "Hide" : "Show"} Optional Details
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-xs sm:text-sm text-gray-600">
                   Get better AI recommendations
                 </p>
               </div>
             </div>
             <svg
-              className={`h-5 w-5 text-gray-600 transition-transform ${
+              className={`h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-transform ${
                 showOptionalDetails ? "rotate-180" : ""
               }`}
               fill="none"
@@ -265,12 +267,12 @@ export default function SignUpPage() {
 
           {/* Optional Details */}
           {showOptionalDetails && (
-            <div className="mb-6 space-y-6 rounded-lg bg-gray-50 p-6">
+            <div className="mb-5 sm:mb-6 space-y-4 sm:space-y-6 rounded-lg bg-gray-50 p-4 sm:p-6">
               {/* Height */}
               <div>
                 <label
                   htmlFor="height"
-                  className="mb-2 block text-sm font-semibold text-gray-900"
+                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
                 >
                   Height (Optional)
                 </label>
@@ -280,7 +282,7 @@ export default function SignUpPage() {
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
                   placeholder="Enter your height in cm"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 />
               </div>
 
@@ -288,7 +290,7 @@ export default function SignUpPage() {
               <div>
                 <label
                   htmlFor="country"
-                  className="mb-2 block text-sm font-semibold text-gray-900"
+                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
                 >
                   Country (Optional)
                 </label>
@@ -296,7 +298,7 @@ export default function SignUpPage() {
                   id="country"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 >
                   {countries.map((c) => (
                     <option key={c} value={c}>
@@ -308,23 +310,25 @@ export default function SignUpPage() {
 
               {/* Body Shape */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Body Shape (Optional)
                 </label>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5">
                   {bodyShapes.map((shape) => (
                     <button
                       key={shape.id}
                       type="button"
                       onClick={() => setBodyShape(shape.id)}
-                      className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
                         bodyShape === shape.id
                           ? "border-emerald-600 bg-emerald-50"
                           : "border-gray-200 bg-white hover:border-gray-300"
                       }`}
                     >
-                      {shape.icon}
-                      <span className="text-xs font-medium text-gray-900 text-center">
+                      <div className="scale-90 sm:scale-100">
+                        {shape.icon}
+                      </div>
+                      <span className="text-xs font-medium text-gray-900 text-center leading-tight">
                         {shape.name}
                       </span>
                     </button>
@@ -334,23 +338,23 @@ export default function SignUpPage() {
 
               {/* Skin Tone */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Skin Tone (Optional)
                 </label>
-                <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-5">
                   {skinTones.map((tone) => (
                     <button
                       key={tone.id}
                       type="button"
                       onClick={() => setSkinTone(tone.id)}
-                      className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
                         skinTone === tone.id
                           ? "border-emerald-600 bg-emerald-50"
                           : "border-gray-200 bg-white hover:border-gray-300"
                       }`}
                     >
                       <div
-                        className="h-8 w-8 rounded-full border-2 border-gray-300"
+                        className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border-2 border-gray-300"
                         style={{ backgroundColor: tone.color }}
                       ></div>
                       <span className="text-xs font-medium text-gray-900">
@@ -363,10 +367,10 @@ export default function SignUpPage() {
 
               {/* Upload Photos */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-900">
+                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
                   Upload Your Photos (Optional)
                 </label>
-                <label className="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-6 transition-all hover:border-emerald-400 hover:bg-gray-50">
+                <label className="flex min-h-[120px] sm:min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 sm:p-6 transition-all hover:border-emerald-400 hover:bg-gray-50">
                   <input
                     type="file"
                     multiple
@@ -375,7 +379,7 @@ export default function SignUpPage() {
                     className="hidden"
                   />
                   <svg
-                    className="mb-3 h-12 w-12 text-gray-400"
+                    className="mb-2 sm:mb-3 h-10 w-10 sm:h-12 sm:w-12 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -393,7 +397,7 @@ export default function SignUpPage() {
                       d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700 text-center">
                     Click to upload or drag and drop
                   </p>
                   {uploadedPhotos.length > 0 && (
@@ -407,15 +411,15 @@ export default function SignUpPage() {
           )}
 
           {/* Terms & Conditions */}
-          <div className="mb-6">
-            <label className="flex items-start gap-3 cursor-pointer">
+          <div className="mb-5 sm:mb-6">
+            <label className="flex items-start gap-2 sm:gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
-                className="mt-1 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                className="mt-0.5 sm:mt-1 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
               />
-              <span className="text-sm text-gray-700">
+              <span className="text-xs sm:text-sm text-gray-700">
                 I agree to the{" "}
                 <Link
                   href="/terms"
@@ -438,13 +442,13 @@ export default function SignUpPage() {
           <button
             type="submit"
             disabled={!agreeToTerms || !fullName || !email || !password || !gender}
-            className="mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-3 text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all"
+            className="mb-3 sm:mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-2.5 sm:py-3 text-base sm:text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all"
           >
             Create Account
           </button>
 
           {/* Login Link */}
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-xs sm:text-sm text-gray-600">
             Already have an account?{" "}
             <Link
               href="/signin"
@@ -456,10 +460,10 @@ export default function SignUpPage() {
         </form>
 
         {/* Footer Note */}
-        <div className="mt-6 text-center">
-          <p className="flex items-center justify-center gap-2 text-sm text-gray-600">
+        <div className="mt-4 sm:mt-6 text-center">
+          <p className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-600">
             <svg
-              className="h-4 w-4 text-emerald-600"
+              className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
