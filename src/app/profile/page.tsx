@@ -4,8 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function ProfilePage() {
+  const [activeSection, setActiveSection] = useState("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [imageProcessing, setImageProcessing] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   // User profile data
   const [fullName, setFullName] = useState("Ayesha Khan");
@@ -64,113 +66,187 @@ export default function ProfilePage() {
     "Other",
   ];
 
+  const sidebarItems = [
+    { id: "overview", label: "Overview", icon: "👤" },
+    { id: "personal-info", label: "Personal Info", icon: "📝" },
+    { id: "privacy", label: "Privacy & Settings", icon: "🔒" },
+    { id: "ai-insights", label: "AI Style Insights", icon: "🤖" },
+    { id: "quick-actions", label: "Quick Actions", icon: "⚡" },
+  ];
+
+  const handleSectionChange = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setIsSidebarOpen(false); // Close sidebar on mobile after selection
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-        {/* Profile Header */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
-          <div className="flex flex-col items-center text-center mb-5 sm:mb-6">
-            {/* Avatar */}
-            <div className="mb-3 sm:mb-4 h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-to-br from-emerald-700 to-yellow-400 flex items-center justify-center shadow-lg">
-              <span className="text-2xl sm:text-3xl font-bold text-white">
-                {fullName.split(" ").map(n => n[0]).join("")}
-              </span>
-            </div>
-            
-            {/* Name and Email */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{fullName}</h1>
-            <p className="text-sm sm:text-base text-gray-600">{email}</p>
-          </div>
-
-          {/* Wardrobe Summary */}
-          <div className="mb-5 sm:mb-6">
-            <h3 className="mb-3 sm:mb-4 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
-              Wardrobe Summary
-            </h3>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:grid-cols-5">
-              {wardrobeSummary.map((item, index) => (
-                <div
-                  key={index}
-                  className={`rounded-lg sm:rounded-xl p-3 sm:p-4 text-center ${item.color}`}
-                >
-                  <div className="text-xl sm:text-2xl font-bold mb-0.5 sm:mb-1">{item.count}</div>
-                  <div className="text-xs sm:text-sm font-medium">{item.label}</div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600">
-              <span className="font-semibold">Latest:</span> Gold Dupatta
-            </div>
-          </div>
-
-          {/* Go to Wardrobe Button */}
-          <Link
-            href="/my-wardrobe"
-            className="w-full block rounded-lg bg-gradient-to-r from-emerald-700 to-emerald-600 py-2.5 sm:py-3 text-center text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-500 transition-all shadow-md hover:shadow-lg"
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className="flex gap-6">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden fixed top-4 left-4 z-50 rounded-lg bg-white/95 backdrop-blur-sm p-3 shadow-xl border border-white/20"
           >
-            Go to Wardrobe
-          </Link>
-        </div>
+            <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isSidebarOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
 
-        {/* Privacy & Settings */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
-          <h2 className="mb-5 sm:mb-6 text-xl sm:text-2xl font-bold text-gray-900">
-            Privacy & Settings
-          </h2>
+          {/* Sidebar */}
+          <aside className={`
+            fixed lg:sticky top-0 left-0 h-screen lg:h-auto
+            w-64 lg:w-72 flex-shrink-0
+            bg-white/95 backdrop-blur-sm rounded-none lg:rounded-2xl
+            shadow-xl border border-white/20
+            transition-transform duration-300 ease-in-out z-40
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            overflow-y-auto
+          `}>
+            <div className="p-6">
+              {/* Profile Header in Sidebar */}
+              <div className="mb-6 text-center pb-6 border-b border-gray-200">
+                <div className="mb-4 h-20 w-20 mx-auto rounded-full bg-gradient-to-br from-emerald-700 to-yellow-400 flex items-center justify-center shadow-lg">
+                  <span className="text-2xl font-bold text-white">
+                    {fullName.split(" ").map(n => n[0]).join("")}
+                  </span>
+                </div>
+                <h2 className="text-lg font-bold text-gray-900">{fullName}</h2>
+                <p className="text-sm text-gray-600">{email}</p>
+              </div>
 
-          {/* Image Processing Toggle */}
-          <div className="mb-5 sm:mb-6 flex items-center justify-between gap-4">
-            <div className="flex-1">
-              <h3 className="text-sm sm:text-base font-semibold text-gray-900">Image Processing</h3>
-              <p className="text-xs sm:text-sm text-gray-600">
-                Allow AI to analyze photos for recommendations
-              </p>
+              {/* Navigation Items */}
+              <nav className="space-y-2">
+                {sidebarItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleSectionChange(item.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all ${
+                      activeSection === item.id
+                        ? "bg-gradient-to-r from-emerald-700 to-yellow-400 text-white shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="font-medium text-sm">{item.label}</span>
+                  </button>
+                ))}
+              </nav>
             </div>
-            <button
-              onClick={() => setImageProcessing(!imageProcessing)}
-              className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                imageProcessing ? "bg-gradient-to-r from-emerald-700 to-emerald-600" : "bg-gray-300"
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  imageProcessing ? "translate-x-6" : "translate-x-1"
-                }`}
-              />
-            </button>
-          </div>
+          </aside>
 
-          {/* Action Buttons */}
-          <div className="space-y-2 sm:space-y-3">
-            <button className="w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-              Change Password
-            </button>
-            <button className="w-full rounded-lg border border-red-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-              Delete Account
-            </button>
-          </div>
-        </div>
+          {/* Overlay for mobile */}
+          {isSidebarOpen && (
+            <div
+              className="lg:hidden fixed inset-0 bg-black/50 z-30"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+          )}
 
-        {/* Profile Information */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
-          <div className="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                Profile Information
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-600">
-                Edit your personal info and style preferences
-              </p>
-            </div>
-            <button
-              onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="rounded-lg bg-gray-100 px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
-            >
-              {isEditingProfile ? "Cancel" : "Edit Profile"}
-            </button>
-          </div>
+          {/* Main Content */}
+          <main className="flex-1 space-y-6">
+            {/* Overview Section */}
+            {activeSection === "overview" && (
+              <div className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+                <h2 className="mb-6 text-2xl sm:text-3xl font-bold text-gray-900">Profile Overview</h2>
+                
+                {/* Wardrobe Summary */}
+                <div className="mb-6">
+                  <h3 className="mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                    Wardrobe Summary
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-5">
+                    {wardrobeSummary.map((item, index) => (
+                      <div
+                        key={index}
+                        className={`rounded-lg sm:rounded-xl p-3 sm:p-4 text-center ${item.color}`}
+                      >
+                        <div className="text-xl sm:text-2xl font-bold mb-1">{item.count}</div>
+                        <div className="text-xs sm:text-sm font-medium">{item.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 text-sm text-gray-600">
+                    <span className="font-semibold">Latest:</span> Gold Dupatta
+                  </div>
+                </div>
 
-          <div className="space-y-5 sm:space-y-6">
+                {/* Go to Wardrobe Button */}
+                <Link
+                  href="/my-wardrobe"
+                  className="w-full block rounded-lg bg-gradient-to-r from-emerald-700 to-emerald-600 py-3 text-center text-sm font-semibold text-white hover:from-emerald-600 hover:to-emerald-500 transition-all shadow-md hover:shadow-lg"
+                >
+                  Go to Wardrobe
+                </Link>
+              </div>
+            )}
+
+            {/* Privacy & Settings Section */}
+            {activeSection === "privacy" && (
+              <div className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+                <h2 className="mb-6 text-2xl font-bold text-gray-900">
+                  Privacy & Settings
+                </h2>
+
+                {/* Image Processing Toggle */}
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <h3 className="text-base font-semibold text-gray-900">Image Processing</h3>
+                    <p className="text-sm text-gray-600">
+                      Allow AI to analyze photos for recommendations
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setImageProcessing(!imageProcessing)}
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
+                      imageProcessing ? "bg-gradient-to-r from-emerald-700 to-emerald-600" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        imageProcessing ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <button className="w-full rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                    Change Password
+                  </button>
+                  <button className="w-full rounded-lg border border-red-300 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                    Delete Account
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Personal Info Section */}
+            {activeSection === "personal-info" && (
+              <div className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      Personal Information
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Edit your personal info and style preferences
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsEditingProfile(!isEditingProfile)}
+                    className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
+                  >
+                    {isEditingProfile ? "Cancel" : "Edit Profile"}
+                  </button>
+                </div>
+
+                <div className="space-y-6">
             {/* Full Name */}
             <div>
               <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
@@ -319,119 +395,126 @@ export default function ProfilePage() {
               </div>
             )}
 
-            {/* Save Button */}
-            {isEditingProfile && (
-              <button className="w-full rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
-                Save Changes
-              </button>
+                  {/* Save Button */}
+                  {isEditingProfile && (
+                    <button className="w-full rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 py-3 text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
+                      Save Changes
+                    </button>
+                  )}
+                </div>
+              </div>
             )}
-          </div>
-        </div>
 
-        {/* AI Style Insights */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
-          <div className="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                AI Style Insights
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-600">
-                Personalized recommendations based on your wardrobe
-              </p>
-            </div>
-            <button className="rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
-              Re-Analyze
-            </button>
-          </div>
+            {/* AI Style Insights Section */}
+            {activeSection === "ai-insights" && (
+              <div className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+                <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      AI Style Insights
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Personalized recommendations based on your wardrobe
+                    </p>
+                  </div>
+                  <button className="rounded-lg bg-gradient-to-r from-emerald-700 to-yellow-400 px-4 py-2 text-sm font-semibold text-white hover:from-emerald-600 hover:to-yellow-500 transition-all shadow-md hover:shadow-lg">
+                    Re-Analyze
+                  </button>
+                </div>
 
-          <div className="space-y-5 sm:space-y-6">
-            {/* Recommended Colors */}
-            <div>
-              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                Recommended Colors
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {aiInsights.colors.map((color, index) => (
-                  <span
-                    key={index}
-                    className="rounded-full bg-emerald-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-emerald-700"
-                  >
-                    {color}
-                  </span>
-                ))}
+                <div className="space-y-6">
+                  {/* Recommended Colors */}
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                      Recommended Colors
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {aiInsights.colors.map((color, index) => (
+                        <span
+                          key={index}
+                          className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700"
+                        >
+                          {color}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Recommended Fits */}
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                      Recommended Fits
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {aiInsights.fits.map((fit, index) => (
+                        <span
+                          key={index}
+                          className="rounded-full bg-yellow-100 px-4 py-2 text-sm font-medium text-yellow-700"
+                        >
+                          {fit}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Patterns */}
+                  <div>
+                    <h3 className="mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                      Patterns
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {aiInsights.patterns.map((pattern, index) => (
+                        <span
+                          key={index}
+                          className="rounded-full bg-purple-100 px-4 py-2 text-sm font-medium text-purple-700"
+                        >
+                          {pattern}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Recommended Fits */}
-            <div>
-              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                Recommended Fits
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {aiInsights.fits.map((fit, index) => (
-                  <span
-                    key={index}
-                    className="rounded-full bg-yellow-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-yellow-700"
+            {/* Quick Actions Section */}
+            {activeSection === "quick-actions" && (
+              <div className="rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
+                <h2 className="mb-6 text-2xl font-bold text-gray-900">
+                  Quick Actions
+                </h2>
+
+                <div className="space-y-3 mb-6">
+                  <Link
+                    href="/my-wardrobe"
+                    className="block w-full rounded-lg border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    {fit}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Patterns */}
-            <div>
-              <h3 className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                Patterns
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {aiInsights.patterns.map((pattern, index) => (
-                  <span
-                    key={index}
-                    className="rounded-full bg-purple-100 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-purple-700"
+                    Open Wardrobe
+                  </Link>
+                  <Link
+                    href="/get-started"
+                    className="block w-full rounded-lg border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                   >
-                    {pattern}
-                  </span>
-                ))}
+                    Generate Look
+                  </Link>
+                  <button className="w-full rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                    Download Profile
+                  </button>
+                </div>
+
+                {/* Stats */}
+                <div className="border-t border-gray-200 pt-6">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-sm text-gray-600">Total Items:</span>
+                    <span className="text-2xl font-bold text-gray-900">42</span>
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className="font-medium">Last upload:</span> Gold Dupatta
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-sm p-5 sm:p-6 lg:p-8 shadow-xl border border-white/20">
-          <h2 className="mb-5 sm:mb-6 text-xl sm:text-2xl font-bold text-gray-900">
-            Quick Actions
-          </h2>
-
-          <div className="space-y-2 sm:space-y-3 mb-5 sm:mb-6">
-            <Link
-              href="/my-wardrobe"
-              className="block w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              Open Wardrobe
-            </Link>
-            <Link
-              href="/get-started"
-              className="block w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              Generate Look
-            </Link>
-            <button className="w-full rounded-lg border border-gray-300 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-              Download Profile
-            </button>
-          </div>
-
-          {/* Stats */}
-          <div className="border-t border-gray-200 pt-5 sm:pt-6">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-xs sm:text-sm text-gray-600">Total Items:</span>
-              <span className="text-xl sm:text-2xl font-bold text-gray-900">42</span>
-            </div>
-            <div className="mt-2 text-xs sm:text-sm text-gray-600">
-              <span className="font-medium">Last upload:</span> Gold Dupatta
-            </div>
-          </div>
+            )}
+          </main>
         </div>
       </div>
     </div>
