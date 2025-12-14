@@ -1,18 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+interface WardrobeItem {
+  id: string;
+  name: string;
+  image_url: string;
+  category: string;
+  color: string;
+  style: string;
+}
+
+interface GeneratedLook {
+  id: number;
+  match_score: number;
+  tryon_image_url: string | null;
+  description: string;
+  items: WardrobeItem[];
+  primary_color: string;
+  style: string;
+}
 
 export default function GetStartedPage() {
   const [selectedEvent, setSelectedEvent] = useState("wedding");
   const [numberOfLooks, setNumberOfLooks] = useState(5);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [selectedLook, setSelectedLook] = useState<typeof generatedLooks[0] | null>(null);
+  const [selectedLook, setSelectedLook] = useState<GeneratedLook | null>(null);
   const [rotateAngle, setRotateAngle] = useState(0);
   const [moveForward, setMoveForward] = useState(0);
   const [verticalAngle, setVerticalAngle] = useState(0);
   const [wideAngleLens, setWideAngleLens] = useState(false);
+  const [generatedLooks, setGeneratedLooks] = useState<GeneratedLook[]>([]);
+  const [error, setError] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+
+  // Get user ID from localStorage or sessionStorage
+  useEffect(() => {
+    // Check localStorage first (Remember Me = true)
+    let storedUser = localStorage.getItem("user");
+    let storageType = "localStorage";
+    
+    // If not in localStorage, check sessionStorage (Remember Me = false)
+    if (!storedUser) {
+      storedUser = sessionStorage.getItem("user");
+      storageType = "sessionStorage";
+    }
+    
+    console.log(`Checking ${storageType} for user data...`);
+    console.log("Stored user data:", storedUser);
+    
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        console.log("✅ Parsed user data:", userData);
+        console.log("✅ User ID:", userData.id);
+        setUserId(userData.id);
+      } catch (e) {
+        console.error("❌ Error parsing user data:", e);
+        setError("Invalid user data. Please sign in again.");
+      }
+    } else {
+      console.warn("⚠️ No user found in localStorage or sessionStorage");
+      setError("Please sign in to generate looks");
+    }
+  }, []);
 
   const eventTypes = [
     {
@@ -52,54 +105,50 @@ export default function GetStartedPage() {
     },
   ];
 
-  const generatedLooks = [
-    {
-      id: 1,
-      match: 87,
-      image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=600&fit=crop",
-      description:
-        "Perfect for a wedding celebration. This ensemble balances traditional elegance with your hourglass silhouette, featuring rich colors that complement your warm skin tone.",
-      items: [
-        { name: "Emerald Green Dress", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=100&h=100&fit=crop" },
-        { name: "White Dupatta", image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=100&h=100&fit=crop" },
-        { name: "Gold Jewelry", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop" }
-      ],
-    },
-    {
-      id: 2,
-      match: 90,
-      image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=400&h=600&fit=crop",
-      description:
-        "Perfect for a wedding celebration. This ensemble balances traditional elegance with your hourglass silhouette, featuring rich colors that complement your warm skin tone.",
-      items: [
-        { name: "Red Lehenga", image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=100&h=100&fit=crop" },
-        { name: "Gold Blouse", image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=100&h=100&fit=crop" },
-        { name: "Statement Earrings", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=100&h=100&fit=crop" }
-      ],
-    },
-    {
-      id: 3,
-      match: 85,
-      image: "https://images.unsplash.com/photo-1610030469320-3e2fa0b1c1b5?w=400&h=600&fit=crop",
-      description:
-        "Perfect for a wedding celebration. This ensemble balances traditional elegance with your hourglass silhouette, featuring rich colors that complement your warm skin tone.",
-      items: [
-        { name: "Royal Blue Sari", image: "https://images.unsplash.com/photo-1583391733941-8b1e7e1c3c9a?w=100&h=100&fit=crop" },
-        { name: "Silver Jewelry", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=100&h=100&fit=crop" },
-        { name: "Matching Clutch", image: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=100&h=100&fit=crop" }
-      ],
-    },
-  ];
+  const handleGenerate = async () => {
+    if (!userId) {
+      setError("Please sign in to generate looks");
+      return;
+    }
 
-  const handleGenerate = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setError("");
+
+    try {
+      // Create FormData for the API call
+      const formData = new FormData();
+      formData.append("user_id", userId);
+      formData.append("event_type", selectedEvent);
+      formData.append("num_looks", numberOfLooks.toString());
+
+      const response = await fetch("http://localhost:8000/wardrobe/generate-looks", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to generate looks");
+      }
+
+      const data = await response.json();
+      
+      if (data.success && data.looks) {
+        setGeneratedLooks(data.looks);
+        setShowResults(true);
+      } else {
+        throw new Error("No looks generated");
+      }
+    } catch (err: any) {
+      console.error("Error generating looks:", err);
+      setError(err.message || "Failed to generate looks. Please try again.");
+      setShowResults(false);
+    } finally {
       setIsGenerating(false);
-      setShowResults(true);
-    }, 2000);
+    }
   };
 
-  const handleLookClick = (look: typeof generatedLooks[0]) => {
+  const handleLookClick = (look: GeneratedLook) => {
     setSelectedLook(look);
     setRotateAngle(0);
     setMoveForward(0);
@@ -130,6 +179,20 @@ export default function GetStartedPage() {
           <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-4 sm:px-0">
             AI-powered outfit suggestions based on your wardrobe and profile
           </p>
+          {/* User Status Indicator */}
+          {userId ? (
+            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span className="text-sm text-green-700 font-medium">Ready to generate looks</span>
+            </div>
+          ) : (
+            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200">
+              <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span className="text-sm text-amber-700 font-medium">Please <Link href="/signin" className="underline hover:text-amber-900">sign in</Link> first</span>
+            </div>
+          )}
         </div>
 
         {/* Event Type Selection */}
@@ -185,11 +248,35 @@ export default function GetStartedPage() {
           </div>
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 sm:mb-8 rounded-lg bg-red-50 border border-red-200 p-4">
+            <div className="flex items-start gap-3">
+              <svg className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 className="text-sm font-semibold text-red-800 mb-1">Error</h3>
+                <p className="text-sm text-red-700">{error}</p>
+                {error.includes("No wardrobe items") && (
+                  <Link
+                    href="/my-wardrobe"
+                    className="mt-2 inline-block text-sm font-medium text-red-600 hover:text-red-800 underline"
+                  >
+                    Add items to your wardrobe →
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Generate Button */}
         <button
           onClick={handleGenerate}
-          disabled={isGenerating}
+          disabled={isGenerating || !userId}
           className="mb-8 sm:mb-10 lg:mb-12 w-full rounded-lg sm:rounded-xl bg-gradient-to-r from-emerald-600 to-yellow-500 py-3 sm:py-3.5 lg:py-4 text-base sm:text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+          title={!userId ? "Please sign in to generate looks" : ""}
         >
           {isGenerating ? (
             <>
@@ -212,7 +299,14 @@ export default function GetStartedPage() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              <span className="text-sm sm:text-base lg:text-lg">Generating Your Looks...</span>
+              <span className="text-sm sm:text-base lg:text-lg">Generating Your Looks... (This may take 1-2 minutes)</span>
+            </>
+          ) : !userId ? (
+            <>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span className="text-sm sm:text-base lg:text-lg">Sign In Required</span>
             </>
           ) : (
             <>
@@ -260,22 +354,30 @@ export default function GetStartedPage() {
                   <div className="flex flex-col md:flex-row gap-4 sm:gap-5 lg:gap-6">
                     {/* Look Image */}
                     <div className="relative w-full md:w-40 lg:w-48 h-56 sm:h-60 md:h-64 rounded-lg overflow-hidden bg-gray-100">
-                      <img
-                        src={look.image}
-                        alt={`Look ${look.id}`}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.classList.add('bg-gradient-to-br', 'from-emerald-100', 'to-yellow-100', 'flex', 'items-center', 'justify-center');
-                            parent.innerHTML += '<svg class="h-16 w-16 sm:h-20 sm:w-20 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>';
-                          }
-                        }}
-                      />
+                      {look.tryon_image_url ? (
+                        <img
+                          src={look.tryon_image_url}
+                          alt={`Look ${look.id}`}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.classList.add('bg-gradient-to-br', 'from-emerald-100', 'to-yellow-100', 'flex', 'items-center', 'justify-center');
+                              parent.innerHTML += '<svg class="h-16 w-16 sm:h-20 sm:w-20 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>';
+                            }
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-emerald-100 to-yellow-100 flex items-center justify-center">
+                          <svg className="h-16 w-16 sm:h-20 sm:w-20 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                        </div>
+                      )}
                       <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white rounded-full px-2.5 py-1 sm:px-3 text-[10px] sm:text-xs font-semibold text-emerald-600 border border-emerald-200 shadow-sm">
-                        {look.match}% Match
+                        {look.match_score}% Match
                       </div>
                     </div>
 
@@ -293,15 +395,15 @@ export default function GetStartedPage() {
                         <p className="mb-2 text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wide">
                           Items Used
                         </p>
-                        <div className="flex gap-1.5 sm:gap-2">
-                          {look.items.map((item, index) => (
+                        <div className="flex gap-1.5 sm:gap-2 flex-wrap">
+                          {look.items.slice(0, 6).map((item, index) => (
                             <div
                               key={index}
                               className="group relative h-10 w-10 sm:h-12 sm:w-12 rounded-md sm:rounded-lg overflow-hidden border border-gray-200 hover:border-emerald-400 transition-all cursor-pointer"
                               title={item.name}
                             >
                               <img
-                                src={item.image}
+                                src={item.image_url}
                                 alt={item.name}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
@@ -368,21 +470,30 @@ export default function GetStartedPage() {
                   Look {selectedLook.id}
                 </h2>
                 <div className="inline-block bg-emerald-100 text-emerald-700 px-2.5 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-semibold">
-                  {selectedLook.match}% Match
+                  {selectedLook.match_score}% Match
                 </div>
               </div>
 
               {/* Image Preview */}
               <div className="mb-4 sm:mb-6 rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
-                <img
-                  src={selectedLook.image}
-                  alt={`Look ${selectedLook.id}`}
-                  className="w-full h-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] object-contain"
-                  style={{
-                    transform: `rotate(${rotateAngle}deg) scale(${1 + moveForward / 50}) perspective(${wideAngleLens ? '500px' : '1000px'}) rotateX(${verticalAngle}deg)`,
-                    transition: 'transform 0.3s ease',
-                  }}
-                />
+                {selectedLook.tryon_image_url ? (
+                  <img
+                    src={selectedLook.tryon_image_url}
+                    alt={`Look ${selectedLook.id}`}
+                    className="w-full h-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] object-contain"
+                    style={{
+                      transform: `rotate(${rotateAngle}deg) scale(${1 + moveForward / 50}) perspective(${wideAngleLens ? '500px' : '1000px'}) rotateX(${verticalAngle}deg)`,
+                      transition: 'transform 0.3s ease',
+                    }}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-8 text-center">
+                    <svg className="h-24 w-24 text-emerald-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <p className="text-gray-600 text-sm">Virtual try-on not available for this look</p>
+                  </div>
+                )}
               </div>
 
               {/* Angle Controls */}
@@ -527,9 +638,9 @@ export default function GetStartedPage() {
               {/* Items Used */}
               <div className="mb-5 sm:mb-6">
                 <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                  Items Used
+                  Items Used ({selectedLook.items.length})
                 </p>
-                <div className="flex gap-2 sm:gap-3">
+                <div className="flex gap-2 sm:gap-3 flex-wrap">
                   {selectedLook.items.map((item, index) => (
                     <div
                       key={index}
@@ -537,7 +648,7 @@ export default function GetStartedPage() {
                     >
                       <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-md sm:rounded-lg overflow-hidden border-2 border-gray-200 hover:border-emerald-400 transition-all">
                         <img
-                          src={item.image}
+                          src={item.image_url}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />

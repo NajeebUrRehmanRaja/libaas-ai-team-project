@@ -2,8 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+interface ClipInsights {
+  top_label: string;
+  top_confidence: number;
+  all_predictions: Array<{ label: string; score: number }>;
+}
+
+interface SignupResponse {
+  message: string;
+  user_id: string;
+  clip_insights?: ClipInsights;
+}
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +31,12 @@ export default function SignUpPage() {
   const [skinTone, setSkinTone] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState<File[]>([]);
+  
+  // API states
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [clipInsights, setClipInsights] = useState<ClipInsights | null>(null);
 
   const genderOptions = [
     {
@@ -122,10 +144,67 @@ export default function SignUpPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted");
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+    setClipInsights(null);
+
+    try {
+      // Create FormData for multipart/form-data submission
+      const formData = new FormData();
+      formData.append("name", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("gender", gender);
+      
+      // Optional fields
+      if (height) formData.append("height", height);
+      if (country && country !== "Select your country") formData.append("country", country);
+      if (bodyShape) formData.append("body_shape", bodyShape);
+      if (skinTone) formData.append("skin_tone", skinTone);
+      
+      // Add image if uploaded
+      if (uploadedPhotos.length > 0) {
+        formData.append("image", uploadedPhotos[0]);
+      }
+
+      // Send request to backend
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Signup failed");
+      }
+
+      // Success!
+      const result = data as SignupResponse;
+      setSuccessMessage(result.message);
+      
+      if (result.clip_insights) {
+        setClipInsights(result.clip_insights);
+      }
+
+      // Redirect to signin after 2 seconds
+      setTimeout(() => {
+        router.push("/signin");
+      }, 2000);
+
+    } catch (err) {
+      console.error("Signup error:", err);
+      if (err instanceof TypeError && err.message === "Failed to fetch") {
+        setError("Unable to connect to server. Please make sure the backend is running on http://localhost:8000");
+      } else {
+        setError(err instanceof Error ? err.message : "An error occurred during signup");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -438,13 +517,64 @@ export default function SignUpPage() {
             </label>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-4">
+              <div className="flex items-center gap-2">
+                <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm font-medium text-red-700">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 p-4">
+              <div className="flex items-center gap-2">
+                <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm font-medium text-emerald-700">{successMessage}</p>
+              </div>
+              <p className="mt-2 text-xs text-emerald-600">Redirecting to login...</p>
+            </div>
+          )}
+
+          {/* AI Insights Display */}
+          {clipInsights && (
+            <div className="mb-4 rounded-lg bg-yellow-50 border border-yellow-200 p-4">
+              <h4 className="text-sm font-semibold text-yellow-800 mb-2 flex items-center gap-2">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                AI Style Analysis
+              </h4>
+              <p className="text-xs text-yellow-700">
+                Detected: <span className="font-semibold capitalize">{clipInsights.top_label}</span>
+                <span className="ml-2 text-yellow-600">({Math.round(clipInsights.top_confidence * 100)}% confidence)</span>
+              </p>
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={!agreeToTerms || !fullName || !email || !password || !gender}
-            className="mb-3 sm:mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-2.5 sm:py-3 text-base sm:text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all"
+            disabled={!agreeToTerms || !fullName || !email || !password || !gender || isLoading}
+            className="mb-3 sm:mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-2.5 sm:py-3 text-base sm:text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
-            Create Account
+            {isLoading ? (
+              <>
+                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Creating Account...
+              </>
+            ) : (
+              "Create Account"
+            )}
           </button>
 
           {/* Login Link */}
