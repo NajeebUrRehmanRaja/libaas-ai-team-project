@@ -2,16 +2,63 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign-in logic
-    console.log("Sign in submitted");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Login failed");
+      }
+
+      // Construct user object from response
+      const user = {
+        id: data.user_id,
+        name: data.name,
+        email: data.email,
+      };
+
+      // Store user data
+      if (rememberMe) {
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", user.id);
+      } else {
+        sessionStorage.setItem("user", JSON.stringify(user));
+        sessionStorage.setItem("userId", user.id);
+      }
+
+      // Redirect to profile page
+      router.push(`/profile?userId=${user.id}`);
+    } catch (err: any) {
+      setError(err.message || "An error occurred during login");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,6 +89,28 @@ export default function SignInPage() {
           onSubmit={handleSubmit}
           className="rounded-2xl bg-white p-8 shadow-sm border border-gray-200"
         >
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-4">
+              <div className="flex items-center gap-2">
+                <svg
+                  className="h-5 w-5 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="text-sm font-medium text-red-800">{error}</p>
+              </div>
+            </div>
+          )}
+
           {/* Email */}
           <div className="mb-5">
             <label
@@ -102,10 +171,36 @@ export default function SignInPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={!email || !password}
-            className="mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-3 text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all"
+            disabled={!email || !password || loading}
+            className="mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-3 text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
-            Sign In
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Signing In...
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
 
           {/* Divider */}
@@ -192,5 +287,6 @@ export default function SignInPage() {
     </div>
   );
 }
+
 
 

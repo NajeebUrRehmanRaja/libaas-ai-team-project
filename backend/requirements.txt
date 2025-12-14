@@ -1,0 +1,27 @@
+# FastAPI and server
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+
+# Database
+supabase>=2.3.0
+
+# Authentication
+bcrypt>=4.1.0
+python-jose[cryptography]>=3.3.0
+
+# AI/ML
+transformers>=4.37.0
+torch>=2.0.0
+Pillow>=10.0.0
+pillow-avif-plugin>=1.5.2
+gradio_client>=0.8.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic[email]>=2.5.0
+
+# HTTP client
+httpx>=0.26.0
+requests>=2.31.0
+
