@@ -18,5 +18,5 @@ load_dotenv(env_path)
 if __name__ == "__main__":
     import uvicorn
     # Disable reload to avoid subprocess issues with environment variables
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=False)
 

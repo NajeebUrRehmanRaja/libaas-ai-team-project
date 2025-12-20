@@ -176,3 +176,74 @@ async def get_profile(user_id: str):
         print(f"Profile fetch error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch profile: {str(e)}")
 
+
+@router.post("/update-profile-photo")
+async def update_profile_photo(
+    user_id: str = Form(...),
+    file: UploadFile = File(...)
+):
+    """
+    Update user's profile photo.
+    
+    Args:
+        user_id: User's UUID
+        file: New profile image file
+    
+    Returns:
+        JSON response with new image URL
+    """
+    from app.database import get_user_by_id, supabase
+    from app.auth.utils import generate_unique_filename, validate_image_type
+    
+    try:
+        # Validate user exists
+        user = await get_user_by_id(user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Validate image type
+        if not validate_image_type(file.content_type):
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid image type. Allowed: JPEG, PNG, GIF, WebP"
+            )
+        
+        # Read image bytes
+        image_bytes = await file.read()
+        
+        # Validate file size (max 5MB)
+        if len(image_bytes) > 5 * 1024 * 1024:
+            raise HTTPException(
+                status_code=400,
+                detail="Image size must be less than 5MB"
+            )
+        
+        # Generate unique filename
+        filename = generate_unique_filename(file.filename, user["email"])
+        
+        # Upload to Supabase Storage
+        image_url = await upload_image_to_storage(
+            file_bytes=image_bytes,
+            filename=filename,
+            content_type=file.content_type
+        )
+        
+        # Update user record in database
+        response = supabase.table("users").update({
+            "image_url": image_url
+        }).eq("id", user_id).execute()
+        
+        return JSONResponse(content={
+            "success": True,
+            "message": "Profile photo updated successfully",
+            "image_url": image_url
+        })
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Profile photo update error: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to update profile photo: {str(e)}")
+
