@@ -16,9 +16,12 @@ from app.database import (
     get_user_wardrobe,
     delete_wardrobe_item,
     update_wardrobe_item,
-    upload_wardrobe_image
+    upload_wardrobe_image,
+    upload_tryon_image
 )
 from app.ai.wardrobe_classifier import WardrobeClassifier
+from app.ai.virtual_tryon import get_virtual_tryon_service
+from app.ai.outfit_generator import generate_outfit_recommendations
 
 router = APIRouter(prefix="/wardrobe", tags=["wardrobe"])
 
@@ -382,13 +385,80 @@ async def generate_outfit_looks(
         # 4. Check if user has a profile image for virtual try-on
         user_image_url = user_profile.get("image_url") if user_profile else None
         
-        # 5. Generate looks with outfit item images
-        # Note: Virtual try-on is disabled for now due to Hugging Face Spaces API issues
-        # Users will see outfit combinations with their actual wardrobe items
-        generated_looks = []
+        import sys
+        print(f"[DEBUG] User profile: {user_profile}", flush=True)
+        sys.stdout.flush()
+        print(f"[DEBUG] User image URL: {user_image_url}", flush=True)
+        sys.stdout.flush()
         
+        # 5. Generate looks with virtual try-on (if user has profile image)
+        generated_looks = []
+        virtual_tryon_service = None
+        user_image_temp_path = None
+        
+        # Download user profile image if available
+        if user_image_url:
+            print(f"[TRYON] User has profile image, enabling virtual try-on...", flush=True)
+            sys.stdout.flush()
+            virtual_tryon_service = get_virtual_tryon_service()
+            user_image_temp_path = await virtual_tryon_service.download_image_to_temp(
+                user_image_url, 
+                f"user_{user_id}"
+            )
+            
+            if not user_image_temp_path:
+                print("[WARNING] Failed to download user profile image, virtual try-on disabled", flush=True)
+                sys.stdout.flush()
+                virtual_tryon_service = None
+        else:
+            print("[INFO] No user profile image found, virtual try-on disabled", flush=True)
+            sys.stdout.flush()
+        
+        # Generate looks with try-on images
         for idx, outfit in enumerate(outfits, 1):
             items = outfit.get("items", [])
+            tryon_image_url = None
+            
+            # Try to generate virtual try-on if user image is available
+            if virtual_tryon_service and user_image_temp_path:
+                try:
+                    print(f"[TRYON] Generating virtual try-on for look {idx}...")
+                    
+                    # Generate try-on image
+                    tryon_result_path = await virtual_tryon_service.generate_outfit_tryon(
+                        user_image_path=user_image_temp_path,
+                        outfit_items=items
+                    )
+                    
+                    if tryon_result_path and os.path.exists(tryon_result_path):
+                        # Upload try-on image to Supabase
+                        with open(tryon_result_path, "rb") as f:
+                            tryon_bytes = f.read()
+                        
+                        tryon_filename = f"{user_id}/tryon_{uuid.uuid4()}.jpg"
+                        tryon_image_url = await upload_tryon_image(
+                            tryon_bytes,
+                            tryon_filename,
+                            "image/jpeg"
+                        )
+                        
+                        print(f"[SUCCESS] Virtual try-on generated and uploaded for look {idx}")
+                        
+                        # Clean up temp try-on file
+                        try:
+                            os.remove(tryon_result_path)
+                        except:
+                            pass
+                    else:
+                        print(f"[WARNING] Virtual try-on failed for look {idx}, using garment image")
+                        
+                except Exception as e:
+                    print(f"[ERROR] Virtual try-on error for look {idx}: {e}")
+                    # Continue with fallback
+            
+            # Fallback to primary garment image if try-on failed or unavailable
+            if not tryon_image_url:
+                tryon_image_url = items[0].get("image_url") if items else None
             
             look = {
                 "id": idx,
@@ -401,12 +471,18 @@ async def generate_outfit_looks(
                 "items": items,
                 "primary_color": outfit.get("primary_color", "unknown"),
                 "style": outfit.get("style", "casual"),
-                # Use the primary garment image as the look image
-                "tryon_image_url": items[0].get("image_url") if items else None
+                "tryon_image_url": tryon_image_url
             }
             
             print(f"[SUCCESS] Created look {idx} with {len(items)} items")
             generated_looks.append(look)
+        
+        # Clean up user temp image
+        if user_image_temp_path and os.path.exists(user_image_temp_path):
+            try:
+                os.remove(user_image_temp_path)
+            except:
+                pass
         
         print(f"[SUCCESS] Successfully generated {len(generated_looks)} looks!")
         
@@ -427,4 +503,79 @@ async def generate_outfit_looks(
             status_code=500, 
             detail=f"Failed to generate looks: {str(e)}"
         )
+
+
+@router.post("/generate-outfit-recommendations")
+async def generate_outfit_recommendations_endpoint(
+    user_id: str = Form(...),
+    event_type: str = Form(...),
+    event_venue: str = Form(...),
+    event_time: str = Form(...),
+    weather: str = Form(...),
+    theme: str = Form(...),
+    num_looks: int = Form(3)
+):
+    """
+    Generate AI-powered outfit recommendations using GPT-4o-mini
+    
+    Args:
+        user_id: User UUID
+        event_type: Type of event (wedding, party, office, etc.)
+        event_venue: Venue description (garden, hotel, etc.)
+        event_time: Time of day (morning, afternoon, evening, night)
+        weather: Weather/season (hot, warm, cool, cold, rainy)
+        theme: Style theme (desi, formal, elite, casual, etc.)
+        num_looks: Number of outfit recommendations (3, 5, or 7)
+    
+    Returns:
+        JSON response with outfit recommendations
+    """
+    try:
+        print(f"[OUTFIT_REC] Generating {num_looks} recommendations for user {user_id}", flush=True)
+        print(f"[EVENT] Type: {event_type}, Venue: {event_venue}, Time: {event_time}", flush=True)
+        print(f"[STYLE] Weather: {weather}, Theme: {theme}", flush=True)
+        
+        # Get user profile from database
+        # Get user profile and wardrobe from database
+        from app.database import get_user_by_id, get_user_wardrobe
+        user_profile = await get_user_by_id(user_id)
+        wardrobe_items = await get_user_wardrobe(user_id)
+        
+        if not user_profile:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        print(f"[USER] Gender: {user_profile.get('gender')}, Body Shape: {user_profile.get('body_shape')}", flush=True)
+        print(f"[WARDROBE] Found {len(wardrobe_items)} items", flush=True)
+        
+        # Generate outfit recommendations using GPT-4o-mini
+        recommendations = await generate_outfit_recommendations(
+            user_profile=user_profile,
+            wardrobe_items=wardrobe_items,
+            event_type=event_type,
+            event_venue=event_venue,
+            event_time=event_time,
+            weather=weather,
+            theme=theme,
+            num_looks=num_looks
+        )
+        
+        print(f"[SUCCESS] Generated {len(recommendations)} outfit recommendations", flush=True)
+        
+        return JSONResponse(content={
+            "success": True,
+            "recommendations": recommendations,
+            "event_details": {
+                "type": event_type,
+                "venue": event_venue,
+                "time": event_time,
+                "weather": weather,
+                "theme": theme
+            }
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Failed to generate outfit recommendations: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 

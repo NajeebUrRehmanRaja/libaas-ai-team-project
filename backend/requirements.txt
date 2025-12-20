@@ -16,6 +16,7 @@ torch>=2.0.0
 Pillow>=10.0.0
 pillow-avif-plugin>=1.5.2
 gradio_client>=0.8.0
+openai>=1.0.0
 
 # Utilities
 python-dotenv>=1.0.0
