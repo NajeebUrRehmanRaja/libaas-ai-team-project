@@ -71,37 +71,37 @@ export default function GetStartedPage() {
     {
       id: "wedding",
       name: "Wedding / Shadi",
-      icon: "💍",
+      // icon: "💍",
     },
     {
       id: "mehndi",
       name: "Mehndi",
-      icon: "🎨",
+      // icon: "🎨",
     },
     {
       id: "cultural",
       name: "Cultural Event",
-      icon: "🎭",
+      // icon: "🎭",
     },
     {
       id: "office",
       name: "Office / Professional",
-      icon: "💼",
+      // icon: "💼",
     },
     {
       id: "casual",
       name: "Casual Outing",
-      icon: "👕",
+      // icon: "👕",
     },
     {
       id: "party",
       name: "Party / Celebration",
-      icon: "🎉",
+      // icon: "🎉",
     },
     {
       id: "formal",
       name: "Formal Dinner",
-      icon: "🍽️",
+      // icon: "🍽️",
     },
   ];
 
@@ -211,7 +211,7 @@ export default function GetStartedPage() {
                     : "bg-white border border-gray-200 hover:border-gray-300"
                 }`}
               >
-                <span className="text-xl sm:text-2xl">{event.icon}</span>
+                {/* <span className="text-xl sm:text-2xl">{event.icon}</span> */}
                 <span
                   className={`text-sm sm:text-base font-medium ${
                     selectedEvent === event.id
