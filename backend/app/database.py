@@ -164,6 +164,51 @@ async def upload_wardrobe_image(file_bytes: bytes, filename: str, content_type: 
                 print(f"❌ All upload attempts failed for {filename}")
                 raise e
 
+async def upload_tryon_image(file_bytes: bytes, filename: str, content_type: str = "image/jpeg") -> str:
+    """
+    Upload virtual try-on image to Supabase Storage with retry logic.
+    
+    Args:
+        file_bytes: Image file bytes
+        filename: Unique filename for storage
+        content_type: MIME type of the file
+    
+    Returns:
+        Public URL of the uploaded image
+    """
+    max_retries = 3
+    retry_delay = 2  # seconds
+    
+    for attempt in range(max_retries):
+        try:
+            # Upload to Supabase Storage (tryon_images bucket)
+            response = supabase.storage.from_("tryon_images").upload(
+                path=filename,
+                file=file_bytes,
+                file_options={"content-type": content_type}
+            )
+            
+            # Get public URL
+            public_url = supabase.storage.from_("tryon_images").get_public_url(filename)
+            
+            if attempt > 0:
+                print(f"✅ Try-on image upload succeeded on retry {attempt}")
+            
+            return public_url
+            
+        except Exception as e:
+            error_msg = str(e)
+            print(f"Try-on upload attempt {attempt + 1}/{max_retries} failed: {error_msg}")
+            
+            if attempt < max_retries - 1:
+                print(f"Retrying in {retry_delay} seconds...")
+                await asyncio.sleep(retry_delay)
+                retry_delay *= 2  # Exponential backoff
+            else:
+                print(f"❌ All try-on upload attempts failed for {filename}")
+                raise e
+
+
 async def create_wardrobe_item(item_data: dict) -> dict:
     """
     Create a new wardrobe item in the database.

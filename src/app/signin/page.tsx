@@ -52,6 +52,9 @@ export default function SignInPage() {
         sessionStorage.setItem("userId", user.id);
       }
 
+      // Dispatch event to update Navbar
+      window.dispatchEvent(new Event("auth-change"));
+
       // Redirect to profile page
       router.push(`/profile?userId=${user.id}`);
     } catch (err: any) {
