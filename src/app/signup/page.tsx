@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface ClipInsights {
   top_label: string;
@@ -171,29 +171,29 @@ export default function SignUpPage() {
       }
 
       // Send request to backend
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-        method: "POST",
-        body: formData,
-      });
+      // const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      //   method: "POST",
+      //   body: formData,
+      // });
 
-      const data = await response.json();
+      // const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.detail || "Signup failed");
-      }
+      // if (!response.ok) {
+      //   throw new Error(data.detail || "Signup failed");
+      // }
 
       // Success!
-      const result = data as SignupResponse;
-      setSuccessMessage(result.message);
+      // const result = data as SignupResponse;
+      // setSuccessMessage(result.message);
       
-      if (result.clip_insights) {
-        setClipInsights(result.clip_insights);
-      }
+      // if (result.clip_insights) {
+      //   setClipInsights(result.clip_insights);
+      // }
 
       // Redirect to signin after 2 seconds
-      setTimeout(() => {
-        router.push("/signin");
-      }, 2000);
+      // setTimeout(() => {
+      //   router.push("/signin");
+      // }, 2000);
 
     } catch (err) {
       console.error("Signup error:", err);
@@ -317,7 +317,6 @@ export default function SignUpPage() {
             className="mb-5 sm:mb-6 w-full flex items-center justify-between rounded-lg bg-yellow-50 p-3 sm:p-4 text-left transition-all hover:bg-yellow-100"
           >
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="text-xl sm:text-2xl">✨</span>
               <div>
                 <p className="text-sm sm:text-base font-semibold text-gray-900">
                   {showOptionalDetails ? "Hide" : "Show"} Optional Details
@@ -584,7 +583,7 @@ export default function SignUpPage() {
               href="/signin"
               className="font-semibold text-emerald-600 hover:text-emerald-700"
             >
-              Login here
+              Sign In
             </Link>
           </p>
         </form>

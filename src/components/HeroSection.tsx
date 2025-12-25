@@ -6,8 +6,8 @@ import heroImage from "../../assets/hero-wardrobe.jpg";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-16 lg:py-20">
+    <section className="relative w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400 overflow-hidden">
+      <div className="mx-auto px-4 py-12 sm:px-6 sm:py-16 lg:px-16 lg:py-20">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="flex flex-col justify-center space-y-4 sm:space-y-6">
@@ -31,11 +31,11 @@ export default function HeroSection() {
             <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <Link
                 href="/get-started"
-                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-white/20 backdrop-blur-sm px-6 py-3 sm:px-8 text-sm sm:text-base font-semibold text-white transition-all hover:bg-white/30 hover:scale-105"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 text-base font-semibold text-green-600 hover:gap-4"
               >
                 Get Started
                 <svg
-                  className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -49,35 +49,35 @@ export default function HeroSection() {
                 </svg>
               </Link>
 
-              <Link
+              {/* <Link
                 href="/demo"
                 className="inline-flex items-center justify-center rounded-lg bg-yellow-400 px-6 py-3 sm:px-8 text-sm sm:text-base font-semibold text-gray-900 transition-all hover:bg-yellow-500 hover:scale-105"
               >
                 Watch Demo
-              </Link>
+              </Link> */}
             </div>
 
             {/* Stats */}
-            <div className="flex flex-row justify-around gap-4 pt-6">
+            {/* <div className="flex flex-row justify-around gap-4 pt-6">
               <div className="space-y-1">
                 <div className="text-3xl sm:text-4xl font-bold text-white">1000+</div>
                 <div className="text-xs sm:text-sm text-white/80">Active Users</div>
-              </div>
+              </div> */}
               {/* <div className="h-px w-full bg-white/20 sm:h-auto sm:w-px"></div> */}
-              <div className="space-y-1">
+              {/* <div className="space-y-1">
                 <div className="text-3xl sm:text-4xl font-bold text-white">50K+</div>
                 <div className="text-xs sm:text-sm text-white/80">Outfits Created</div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Image */}
           <div className="relative w-full">
-            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[400px] xl:h-[500px] overflow-hidden rounded-2xl shadow-2xl bg-gradient-to-br from-amber-50 via-rose-50 to-emerald-50 flex items-center justify-center">
+            <div className="">
               <img
                 src={heroImage.src}
                 alt="Beautiful wardrobe with Pakistani traditional clothing"
-                className="h-full w-full object-cover object-center"
+                className="h-50px w-full rounded-2xl object-cover object-center"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';

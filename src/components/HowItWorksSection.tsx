@@ -85,13 +85,13 @@ export default function HowItWorksSection() {
         {/* Steps Grid */}
         <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-3 lg:gap-12">
           {steps.map((step, index) => (
-            <div key={index} className="relative flex flex-col items-center">
+            <div key={index} className="relative bg-gray-200 py-6 px-10 shadow-lg rounded-2xl flex flex-col items-center">
               {/* Connector Arrow - Only between steps on desktop */}
-              {index < steps.length - 1 && (
+              {/* {index < steps.length - 1 && (
                 <div className="absolute left-[60%] top-[70px] sm:top-[80px] hidden h-0.5 w-[80%] md:block">
                   <div className="h-full w-full bg-gradient-to-r from-yellow-400 to-yellow-300"></div>
                 </div>
-              )}
+              )} */}
 
               {/* Step Number Badge - Mobile */}
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 md:hidden">
@@ -101,7 +101,7 @@ export default function HowItWorksSection() {
               </div>
 
               {/* Icon Container */}
-              <div className="relative z-10 mb-4 sm:mb-6 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-600 to-yellow-400 text-white shadow-lg transition-transform duration-300 hover:scale-110">
+              <div className="relative z-10 mb-4 sm:mb-6 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-600 to-yellow-400 text-white transition-transform duration-300 hover:scale-110">
                 {step.icon}
               </div>
 
@@ -110,7 +110,7 @@ export default function HowItWorksSection() {
                 <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-gray-900">
                   {step.title}
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed text-gray-600">
+                <p className="text-sm sm:text-base leading-relaxed">
                   {step.description}
                 </p>
               </div>

@@ -10,16 +10,16 @@ export default function Footer() {
       { name: "How It Works", href: "/how-it-works" },
     ],
     company: [
-      { name: "About Us", href: "/about" },
-      { name: "Contact", href: "/contact" },
-      { name: "Privacy Policy", href: "/privacy" },
+      { name: "My Wardrobe", href: "/my-wardrobe" },
+      { name: "Generate Look", href: "/get-started" },
+      { name: "Profile", href: "/profile" },
     ],
   };
 
   return (
     <footer className="w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-yellow-400">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-16 lg:py-12">
-        <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-3 lg:gap-16">
+      <div className="mx-auto px-4 py-8 sm:px-6 sm:py-10 lg:px-16 lg:py-12">
+        <div className=" flex flex-col md:flex-row justify-between px-20">
           {/* Brand Section */}
           <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ export default function Footer() {
           </div>
 
           {/* Product Links */}
-          <div>
+          {/* <div>
             <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-white">Product</h3>
             <ul className="space-y-2 sm:space-y-3">
               {footerLinks.product.map((link) => (
@@ -63,17 +63,17 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Company Links */}
-          <div>
-            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-white">Company</h3>
+          <div className="">
+            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-white">Quick Links</h3>
             <ul className="space-y-2 sm:space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-xs sm:text-sm text-white/80 transition-colors hover:text-white"
+                    className="text-xs sm:text-sm text-white"
                   >
                     {link.name}
                   </Link>
@@ -84,15 +84,15 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-6 sm:my-8 h-px bg-white/20"></div>
+        {/* <div className="my-6 sm:my-8 h-px bg-white/20"></div> */}
 
         {/* Copyright */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <p className="text-xs sm:text-sm text-white/80">
             © {currentYear} LibassAI. All rights reserved. Crafted with passion
             for Pakistani fashion.
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

@@ -99,11 +99,11 @@ function ProfileContent() {
   ];
 
   const bodyShapeOptions = [
-    { id: "hourglass", name: "Hourglass", icon: "⏳" },
-    { id: "pear", name: "Pear", icon: "🍐" },
-    { id: "rectangle", name: "Rectangle", icon: "▭" },
-    { id: "inverted", name: "Inverted Triangle", icon: "🔻" },
-    { id: "round", name: "Round", icon: "⭕" },
+    { id: "hourglass", name: "Hourglass"},
+    { id: "pear", name: "Pear"},
+    { id: "rectangle", name: "Rectangle"},
+    { id: "inverted", name: "Inverted Triangle"},
+    { id: "round", name: "Round"},
   ];
 
   const skinToneOptions = [
@@ -153,11 +153,11 @@ function ProfileContent() {
   ];
 
   const sidebarItems = [
-    { id: "overview", label: "Overview", icon: "👤" },
-    { id: "personal-info", label: "Personal Info", icon: "📝" },
-    { id: "privacy", label: "Privacy & Settings", icon: "🔒" },
-    { id: "ai-insights", label: "AI Style Insights", icon: "🤖" },
-    { id: "quick-actions", label: "Quick Actions", icon: "⚡" },
+    { id: "overview", label: "Overview"},
+    { id: "personal-info", label: "Personal Info"},
+    { id: "privacy", label: "Privacy & Settings"},
+    { id: "ai-insights", label: "AI Style Insights"},
+    { id: "quick-actions", label: "Quick Actions"},
   ];
 
   const handleSectionChange = (sectionId: string) => {
@@ -260,7 +260,6 @@ function ProfileContent() {
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
-                    <span className="text-xl">{item.icon}</span>
                     <span className="font-medium text-sm">{item.label}</span>
                   </button>
                 ))}
@@ -480,7 +479,6 @@ function ProfileContent() {
                           : "border-gray-200 bg-white hover:border-emerald-600"
                       }`}
                     >
-                      <span className="text-xl sm:text-2xl">{shape.icon}</span>
                       <span className="text-xs font-medium text-gray-900 text-center leading-tight">
                         {shape.name}
                       </span>
@@ -647,7 +645,7 @@ function ProfileContent() {
                   {recommendations && (
                     <div>
                       <h3 className="mb-4 text-sm font-semibold text-gray-500 uppercase tracking-wide">
-                        🎯 Personalized Style Recommendations
+                        Personalized Style Recommendations
                       </h3>
                       
                       {/* Summary */}
@@ -664,7 +662,7 @@ function ProfileContent() {
                         {recommendations.best_fits?.length > 0 && (
                           <div className="rounded-lg bg-white p-4 border border-gray-200">
                             <h4 className="text-sm font-bold text-emerald-700 mb-3 flex items-center gap-2">
-                              <span>✨</span> Best Fits for You
+                              Best Fits for You
                             </h4>
                             <ul className="space-y-2">
                               {recommendations.best_fits.map((fit: string, idx: number) => (
@@ -681,7 +679,7 @@ function ProfileContent() {
                         {recommendations.best_colors?.length > 0 && (
                           <div className="rounded-lg bg-white p-4 border border-gray-200">
                             <h4 className="text-sm font-bold text-yellow-700 mb-3 flex items-center gap-2">
-                              <span>🎨</span> Your Perfect Colors
+                              Your Perfect Colors
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {recommendations.best_colors.map((color: string, idx: number) => (
@@ -700,7 +698,7 @@ function ProfileContent() {
                         {recommendations.complementary_colors?.length > 0 && (
                           <div className="rounded-lg bg-white p-4 border border-gray-200">
                             <h4 className="text-sm font-bold text-purple-700 mb-3 flex items-center gap-2">
-                              <span>💎</span> Complementary Shades
+                              Complementary Shades
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {recommendations.complementary_colors.map((color: string, idx: number) => (
@@ -719,7 +717,7 @@ function ProfileContent() {
                         {recommendations.jewelry_metals && (
                           <div className="rounded-lg bg-white p-4 border border-gray-200">
                             <h4 className="text-sm font-bold text-pink-700 mb-3 flex items-center gap-2">
-                              <span>💍</span> Jewelry Metals
+                              Jewelry Metals
                             </h4>
                             <p className="text-sm text-gray-700">{recommendations.jewelry_metals}</p>
                           </div>
@@ -730,7 +728,7 @@ function ProfileContent() {
                       {recommendations.pro_tips?.length > 0 && (
                         <div className="mt-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4 border border-blue-200">
                           <h4 className="text-sm font-bold text-blue-700 mb-2 flex items-center gap-2">
-                            <span>💡</span> Pro Styling Tips
+                            Pro Styling Tips
                           </h4>
                           {recommendations.pro_tips.map((tip: string, idx: number) => (
                             <p key={idx} className="text-sm text-gray-700 mb-2 last:mb-0">
@@ -744,7 +742,7 @@ function ProfileContent() {
                       {recommendations.avoid?.length > 0 && (
                         <div className="mt-4 rounded-lg bg-red-50 p-4 border border-red-200">
                           <h4 className="text-sm font-bold text-red-700 mb-3 flex items-center gap-2">
-                            <span>⚠️</span> Styles to Avoid
+                            Styles to Avoid
                           </h4>
                           <div className="flex flex-wrap gap-2">
                             {recommendations.avoid.slice(0, 6).map((item: string, idx: number) => (

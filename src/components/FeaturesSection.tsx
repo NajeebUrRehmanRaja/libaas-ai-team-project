@@ -95,8 +95,8 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section className="w-full bg-gray-50 py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-16">
-      <div className="mx-auto max-w-7xl">
+    <section className="w-full bg-gray-50 py-12 px-12">
+      <div className="mx-auto">
         {/* Header */}
         <div className="mb-10 sm:mb-12 lg:mb-16 text-center">
           <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
