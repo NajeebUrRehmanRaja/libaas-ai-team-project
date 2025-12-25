@@ -632,7 +632,7 @@ function ProfileContent() {
                               : "border-gray-200 bg-white hover:border-emerald-600"
                               }`}
                           >
-                            <span className="text-xl sm:text-2xl">{shape.icon}</span>
+                            
                             <span className="text-xs font-medium text-gray-900 text-center leading-tight">
                               {shape.name}
                             </span>
