@@ -95,14 +95,14 @@ export default function GetStartedPage() {
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
-        console.log("✅ User ID:", userData.id);
+        console.log("User ID:", userData.id);
         setUserId(userData.id);
       } catch (e) {
-        console.error("❌ Error parsing user data:", e);
+        console.error("Error parsing user data:", e);
         setError("Invalid user data. Please sign in again.");
       }
     } else {
-      console.warn("⚠️ No user found");
+      console.warn("No user found");
       setError("Please sign in to generate looks");
     }
   }, []);
@@ -175,7 +175,7 @@ export default function GetStartedPage() {
   const handleCopyPrompt = (prompt: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card selection
     navigator.clipboard.writeText(prompt);
-    alert("Prompt copied to clipboard! 📋\n\nYou can now paste this into an image generator.");
+    alert("Prompt copied to clipboard!\n\nYou can now paste this into an image generator.");
   };
 
   // Get icon for category
@@ -261,13 +261,13 @@ export default function GetStartedPage() {
   };
 
   const eventTypes = [
-    { id: "wedding", name: "Wedding / Shadi", icon: "💍" },
-    { id: "mehndi", name: "Mehndi", icon: "🎨" },
-    { id: "cultural", name: "Cultural Event", icon: "🎭" },
-    { id: "office", name: "Office / Professional", icon: "💼" },
-    { id: "casual", name: "Casual Outing", icon: "👕" },
-    { id: "party", name: "Party / Celebration", icon: "🎉" },
-    { id: "formal", name: "Formal Dinner", icon: "🍽️" },
+    { id: "wedding", name: "Wedding / Shadi"},
+    { id: "mehndi", name: "Mehndi"},
+    { id: "cultural", name: "Cultural Event"},
+    { id: "office", name: "Office / Professional"},
+    { id: "casual", name: "Casual Outing"},
+    { id: "party", name: "Party / Celebration"},
+    { id: "formal", name: "Formal Dinner"},
   ];
 
   return (
@@ -311,7 +311,7 @@ export default function GetStartedPage() {
               >
                 {eventTypes.map((event) => (
                   <option key={event.id} value={event.id}>
-                    {event.icon} {event.name}
+                    {event.name}
                   </option>
                 ))}
               </select>
@@ -336,10 +336,10 @@ export default function GetStartedPage() {
                 onChange={handleChange}
                 value={form.eventTime}
               >
-                <option value="morning">🌅 Morning</option>
-                <option value="afternoon">☀️ Afternoon</option>
-                <option value="evening">🌆 Evening</option>
-                <option value="night">🌙 Night</option>
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+                <option value="night">Night</option>
               </select>
             </div>
 
@@ -401,7 +401,7 @@ export default function GetStartedPage() {
                 Generating...
               </span>
             ) : (
-              "✨ Generate Outfit Ideas"
+              "Generate Outfit Ideas"
             )}
           </button>
         </div>
@@ -632,7 +632,6 @@ export default function GetStartedPage() {
         {
           outfits.length === 0 && !loading && (
             <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-white p-16 text-center">
-              <div className="text-6xl mb-6">✨</div>
               <h3 className="mb-2 text-xl font-semibold text-gray-900">
                 Ready to Generate Your Perfect Look?
               </h3>

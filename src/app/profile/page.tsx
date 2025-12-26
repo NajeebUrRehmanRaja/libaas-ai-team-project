@@ -748,7 +748,7 @@ function ProfileContent() {
                         <div className="rounded-lg bg-white p-4 border border-gray-200">
                           <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">
-                              <span className="text-lg">⏳</span>
+                              
                             </div>
                             <div>
                               <p className="text-xs text-gray-500 font-medium">Body Shape</p>
