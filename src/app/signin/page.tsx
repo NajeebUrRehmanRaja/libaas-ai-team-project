@@ -66,29 +66,36 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="mb-3 text-3xl font-bold text-gray-900">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-yellow-50 to-rose-50">
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-rose-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Header with Animation */}
+        <div className="mb-8 text-center animate-fade-in-down">
+          <h1 className="mb-3 text-4xl font-bold bg-gradient-to-r from-emerald-600 to-yellow-600 bg-clip-text text-transparent">
             Welcome Back
           </h1>
-          <p>
+          <p className="text-gray-600 text-lg">
             Sign in to continue your styling journey
           </p>
         </div>
 
-        {/* Form */}
+        {/* Form with Glass Morphism Effect */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl bg-white p-8 shadow-sm border border-gray-200"
+          className="rounded-3xl bg-white/80 backdrop-blur-xl p-8 shadow-2xl border border-white/20 animate-fade-in-up"
         >
           {/* Error Message */}
           {error && (
-            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-4">
-              <div className="flex items-center gap-2">
+            <div className="mb-5 rounded-xl bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-200 p-4 animate-shake">
+              <div className="flex items-start gap-3">
                 <svg
-                  className="h-5 w-5 text-red-600"
+                  className="h-6 w-6 text-red-600 flex-shrink-0 mt-0.5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -100,39 +107,71 @@ export default function SignInPage() {
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <p className="text-sm font-medium text-red-800">{error}</p>
+                <p className="text-sm font-semibold text-red-800">{error}</p>
               </div>
             </div>
           )}
 
           {/* Email */}
-          <div className="mb-5">
+          <div className="mb-5 group">
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-gray-900"
+              className="mb-2 block text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
             >
               Email Address
             </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@gmail.com"
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@gmail.com"
+                required
+                className="w-full rounded-xl border-2 border-gray-200 pl-12 pr-4 py-3.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50/50 hover:bg-white"
+              />
+            </div>
           </div>
 
           {/* Password */}
-          <div className="mb-5">
+          <div className="mb-5 group">
             <label
               htmlFor="password"
-              className="mb-2 block text-sm font-semibold text-gray-900"
+              className="mb-2 block text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
             >
               Password
             </label>
             <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -140,12 +179,12 @@ export default function SignInPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-12 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="w-full rounded-xl border-2 border-gray-200 pl-12 pr-12 py-3.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50/50 hover:bg-white"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-600 focus:outline-none transition-colors duration-200"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
@@ -189,18 +228,18 @@ export default function SignInPage() {
 
           {/* Remember Me & Forgot Password */}
           <div className="mb-6 flex items-center justify-between">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                className="h-4 w-4 rounded-md border-2 border-gray-300 text-emerald-600 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all cursor-pointer"
               />
-              <span className="text-sm text-gray-700">Remember me</span>
+              <span className="text-sm font-medium text-gray-700 group-hover:text-emerald-600 transition-colors">Remember me</span>
             </label>
             <Link
               href="/forgot-password"
-              className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
+              className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 hover:underline transition-all"
             >
               Forgot password?
             </Link>
@@ -210,54 +249,73 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={!email || !password || loading}
-            className="mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-3 text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            className="mb-4 w-full relative group rounded-xl py-4 text-lg font-bold text-white transition-all duration-300 disabled:cursor-not-allowed overflow-hidden"
           >
-            {loading ? (
-              <>
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
+            <div className={`absolute inset-0 bg-gradient-to-r from-emerald-600 via-emerald-500 to-yellow-500 transition-all duration-300 ${!email || !password || loading ? 'opacity-40' : 'group-hover:scale-105'}`}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center justify-center gap-2">
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-6 w-6 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <svg
+                    className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Signing In...
-              </>
-            ) : (
-              "Sign In"
-            )}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </>
+              )}
+            </div>
           </button>
 
           {/* Divider */}
           <div className="relative mb-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full border-t-2 border-gray-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-4 text-gray-500">
-                Or
+              <span className="bg-white/80 backdrop-blur-xl px-4 py-1 text-gray-500 font-medium rounded-full border border-gray-200">
+                Or continue with
               </span>
             </div>
           </div>
 
           {/* Social Sign In */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="group relative flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 hover:border-emerald-300 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -281,7 +339,7 @@ export default function SignInPage() {
             </button>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="group relative flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 hover:border-blue-300 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <svg className="h-5 w-5" fill="#1877F2" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -291,40 +349,146 @@ export default function SignInPage() {
           </div>
 
           {/* Sign Up Link */}
-          <p className="text-center text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link
-              href="/signup"
-              className="font-semibold text-emerald-600 hover:text-emerald-700"
-            >
-              Create account
-            </Link>
-          </p>
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <Link
+                href="/signup"
+                className="font-bold text-transparent bg-gradient-to-r from-emerald-600 to-yellow-600 bg-clip-text hover:from-emerald-500 hover:to-yellow-500 transition-all"
+              >
+                Create account →
+              </Link>
+            </p>
+          </div>
         </form>
 
         {/* Footer Note */}
-        <div className="mt-6 text-center">
-          <p className="flex items-center justify-center gap-2 text-sm text-gray-600">
-            <svg
-              className="h-4 w-4 text-emerald-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-            Secure & Private
-          </p>
+        <div className="mt-8 text-center space-y-4 animate-fade-in">
+          <div className="flex items-center justify-center gap-6 text-sm">
+            <p className="flex items-center gap-2 text-gray-600">
+              <svg
+                className="h-5 w-5 text-emerald-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span className="font-medium">Secure & Private</span>
+            </p>
+            <p className="flex items-center gap-2 text-gray-600">
+              <svg
+                className="h-5 w-5 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+              <span className="font-medium">SSL Encrypted</span>
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        
+        @keyframes fade-in-down {
+          0% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fade-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-4px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(4px);
+          }
+        }
+        
+        :global(.animate-blob) {
+          animation: blob 7s infinite;
+        }
+        
+        :global(.animate-shake) {
+          animation: shake 0.5s ease-in-out;
+        }
+        
+        :global(.animation-delay-2000) {
+          animation-delay: 2s;
+        }
+        
+        :global(.animation-delay-4000) {
+          animation-delay: 4s;
+        }
+        
+        :global(.animate-fade-in-down) {
+          animation: fade-in-down 0.6s ease-out;
+        }
+        
+        :global(.animate-fade-in-up) {
+          animation: fade-in-up 0.6s ease-out 0.2s both;
+        }
+        
+        :global(.animate-fade-in) {
+          animation: fade-in 0.8s ease-out 0.4s both;
+        }
+      `}</style>
     </div>
   );
 }
-
-
-
