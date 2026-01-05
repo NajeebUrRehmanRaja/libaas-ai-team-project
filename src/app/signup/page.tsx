@@ -208,11 +208,18 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-2xl">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8 text-center">
-          <h1 className="mb-2 sm:mb-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+    <div className="min-h-screen relative overflow-hidden py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-yellow-50 to-rose-50">
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-rose-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="mx-auto max-w-2xl relative z-10">
+        {/* Header with Animation */}
+        <div className="mb-6 sm:mb-8 text-center animate-fade-in-down">
+          <h1 className="mb-2 sm:mb-3 text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-yellow-600 bg-clip-text text-transparent">
             Create Your Account
           </h1>
           <p className="text-base sm:text-lg text-gray-600 px-4 sm:px-0">
@@ -220,71 +227,122 @@ export default function SignUpPage() {
           </p>
         </div>
 
-        {/* Form */}
+        {/* Form with Glass Morphism */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-xl sm:rounded-2xl bg-white p-5 sm:p-6 lg:p-8 shadow-sm border border-gray-200"
+          className="rounded-2xl sm:rounded-3xl bg-white/80 backdrop-blur-xl p-5 sm:p-6 lg:p-8 shadow-2xl border border-white/20 animate-fade-in-up"
         >
           {/* Full Name */}
-          <div className="mb-5 sm:mb-6">
+          <div className="mb-5 sm:mb-6 group">
             <label
               htmlFor="fullName"
-              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
             >
               Full Name <span className="text-red-500">*</span>
             </label>
-            <input
-              type="text"
-              id="fullName"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Enter your name"
-              required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your name"
+                required
+                className="w-full rounded-xl border-2 border-gray-200 pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50/50 hover:bg-white"
+              />
+            </div>
           </div>
 
           {/* Email Address */}
-          <div className="mb-5 sm:mb-6">
+          <div className="mb-5 sm:mb-6 group">
             <label
               htmlFor="email"
-              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
             >
               Email Address <span className="text-red-500">*</span>
             </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@gmail.com"
-              required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@gmail.com"
+                required
+                className="w-full rounded-xl border-2 border-gray-200 pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50/50 hover:bg-white"
+              />
+            </div>
           </div>
 
           {/* Password */}
-          <div className="mb-5 sm:mb-6">
+          <div className="mb-5 sm:mb-6 group">
             <label
               htmlFor="password"
-              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
+              className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
             >
               Password <span className="text-red-500">*</span>
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a strong password"
-              required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a strong password"
+                required
+                className="w-full rounded-xl border-2 border-gray-200 pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50/50 hover:bg-white"
+              />
+            </div>
           </div>
 
           {/* Gender */}
           <div className="mb-5 sm:mb-6">
-            <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
+            <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700">
               Gender <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-3 gap-2 sm:gap-4">
@@ -293,16 +351,16 @@ export default function SignUpPage() {
                   key={option.id}
                   type="button"
                   onClick={() => setGender(option.id)}
-                  className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-3 sm:p-4 transition-all ${
+                  className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-xl border-2 p-3 sm:p-4 transition-all duration-200 ${
                     gender === option.id
-                      ? "border-emerald-600 bg-emerald-50"
-                      : "border-gray-200 bg-white hover:border-gray-300"
+                      ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-yellow-50 shadow-md scale-105"
+                      : "border-gray-200 bg-white hover:border-emerald-300 hover:shadow-lg hover:-translate-y-0.5"
                   }`}
                 >
                   <div className="scale-75 sm:scale-100">
                     {option.icon}
                   </div>
-                  <span className="text-xs sm:text-sm font-medium text-gray-900">
+                  <span className="text-xs sm:text-sm font-semibold text-gray-900">
                     {option.name}
                   </span>
                 </button>
@@ -314,11 +372,26 @@ export default function SignUpPage() {
           <button
             type="button"
             onClick={() => setShowOptionalDetails(!showOptionalDetails)}
-            className="mb-5 sm:mb-6 w-full flex items-center justify-between rounded-lg bg-yellow-50 p-3 sm:p-4 text-left transition-all hover:bg-yellow-100"
+            className="mb-5 sm:mb-6 w-full flex items-center justify-between rounded-xl bg-gradient-to-r from-yellow-50 to-emerald-50 p-3 sm:p-4 text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 border-2 border-yellow-200/50"
           >
             <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex-shrink-0">
+                <svg
+                  className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+              </div>
               <div>
-                <p className="text-sm sm:text-base font-semibold text-gray-900">
+                <p className="text-sm sm:text-base font-bold text-gray-900">
                   {showOptionalDetails ? "Hide" : "Show"} Optional Details
                 </p>
                 <p className="text-xs sm:text-sm text-gray-600">
@@ -327,7 +400,7 @@ export default function SignUpPage() {
               </div>
             </div>
             <svg
-              className={`h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-transform ${
+              className={`h-4 w-4 sm:h-5 sm:w-5 text-gray-700 transition-transform duration-300 ${
                 showOptionalDetails ? "rotate-180" : ""
               }`}
               fill="none"
@@ -345,50 +418,89 @@ export default function SignUpPage() {
 
           {/* Optional Details */}
           {showOptionalDetails && (
-            <div className="mb-5 sm:mb-6 space-y-4 sm:space-y-6 rounded-lg bg-gray-50 p-4 sm:p-6">
+            <div className="mb-5 sm:mb-6 space-y-4 sm:space-y-6 rounded-xl bg-gradient-to-br from-gray-50 to-white p-4 sm:p-6 border-2 border-gray-100 animate-fade-in">
               {/* Height */}
-              <div>
+              <div className="group">
                 <label
                   htmlFor="height"
-                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
+                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
                 >
                   Height (Optional)
                 </label>
-                <input
-                  type="text"
-                  id="height"
-                  value={height}
-                  onChange={(e) => setHeight(e.target.value)}
-                  placeholder="Enter your height in cm"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                    <svg
+                      className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    id="height"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    placeholder="Enter your height in cm"
+                    className="w-full rounded-xl border-2 border-gray-200 pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-white hover:border-gray-300"
+                  />
+                </div>
               </div>
 
               {/* Country */}
-              <div>
+              <div className="group">
                 <label
                   htmlFor="country"
-                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900"
+                  className="mb-2 block text-xs sm:text-sm font-semibold text-gray-700 transition-colors group-focus-within:text-emerald-600"
                 >
                   Country (Optional)
                 </label>
-                <select
-                  id="country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-                >
-                  {countries.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                    <svg
+                      className="h-5 w-5 text-gray-400 group-focus-within:text-emerald-500 transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <select
+                    id="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full rounded-xl border-2 border-gray-200 pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-gray-900 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
+                  >
+                    {countries.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               {/* Body Shape */}
               <div>
-                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
+                <label className="mb-3 block text-xs sm:text-sm font-semibold text-gray-700">
                   Body Shape (Optional)
                 </label>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5">
@@ -397,16 +509,16 @@ export default function SignUpPage() {
                       key={shape.id}
                       type="button"
                       onClick={() => setBodyShape(shape.id)}
-                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-xl border-2 p-2.5 sm:p-3 transition-all duration-200 ${
                         bodyShape === shape.id
-                          ? "border-emerald-600 bg-emerald-50"
-                          : "border-gray-200 bg-white hover:border-gray-300"
+                          ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-yellow-50 shadow-md scale-105"
+                          : "border-gray-200 bg-white hover:border-emerald-300 hover:shadow-lg hover:-translate-y-0.5"
                       }`}
                     >
                       <div className="scale-90 sm:scale-100">
                         {shape.icon}
                       </div>
-                      <span className="text-xs font-medium text-gray-900 text-center leading-tight">
+                      <span className="text-xs font-semibold text-gray-900 text-center leading-tight">
                         {shape.name}
                       </span>
                     </button>
@@ -416,7 +528,7 @@ export default function SignUpPage() {
 
               {/* Skin Tone */}
               <div>
-                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
+                <label className="mb-3 block text-xs sm:text-sm font-semibold text-gray-700">
                   Skin Tone (Optional)
                 </label>
                 <div className="grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-5">
@@ -425,17 +537,17 @@ export default function SignUpPage() {
                       key={tone.id}
                       type="button"
                       onClick={() => setSkinTone(tone.id)}
-                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg border-2 p-2.5 sm:p-3 transition-all ${
+                      className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-xl border-2 p-2.5 sm:p-3 transition-all duration-200 ${
                         skinTone === tone.id
-                          ? "border-emerald-600 bg-emerald-50"
-                          : "border-gray-200 bg-white hover:border-gray-300"
+                          ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-yellow-50 shadow-md scale-105"
+                          : "border-gray-200 bg-white hover:border-emerald-300 hover:shadow-lg hover:-translate-y-0.5"
                       }`}
                     >
                       <div
-                        className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border-2 border-gray-300"
+                        className="h-7 w-7 sm:h-8 sm:w-8 rounded-full border-2 border-white shadow-md ring-2 ring-gray-200"
                         style={{ backgroundColor: tone.color }}
                       ></div>
-                      <span className="text-xs font-medium text-gray-900">
+                      <span className="text-xs font-semibold text-gray-900">
                         {tone.name}
                       </span>
                     </button>
@@ -445,10 +557,10 @@ export default function SignUpPage() {
 
               {/* Upload Photos */}
               <div>
-                <label className="mb-2 block text-xs sm:text-sm font-semibold text-gray-900">
+                <label className="mb-3 block text-xs sm:text-sm font-semibold text-gray-700">
                   Upload Your Photos (Optional)
                 </label>
-                <label className="flex min-h-[120px] sm:min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 sm:p-6 transition-all hover:border-emerald-400 hover:bg-gray-50">
+                <label className="group flex min-h-[120px] sm:min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white p-4 sm:p-6 transition-all duration-200 hover:border-emerald-400 hover:bg-gradient-to-br hover:from-emerald-50/50 hover:to-yellow-50/50 hover:shadow-lg">
                   <input
                     type="file"
                     multiple
@@ -456,32 +568,41 @@ export default function SignUpPage() {
                     onChange={handlePhotoUpload}
                     className="hidden"
                   />
-                  <svg
-                    className="mb-2 sm:mb-3 h-10 w-10 sm:h-12 sm:w-12 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <p className="text-xs sm:text-sm font-medium text-gray-700 text-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-yellow-400 rounded-full blur-lg opacity-0 group-hover:opacity-30 transition-opacity"></div>
+                    <svg
+                      className="relative mb-2 sm:mb-3 h-10 w-10 sm:h-12 sm:w-12 text-gray-400 group-hover:text-emerald-500 transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  </div>
+                  <p className="text-xs sm:text-sm font-semibold text-gray-700 text-center group-hover:text-emerald-600 transition-colors">
                     Click to upload or drag and drop
                   </p>
+                  <p className="text-xs text-gray-500 mt-1">PNG, JPG up to 10MB</p>
                   {uploadedPhotos.length > 0 && (
-                    <p className="mt-2 text-xs text-emerald-600">
-                      {uploadedPhotos.length} photo(s) selected
-                    </p>
+                    <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 border border-emerald-200">
+                      <svg className="h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <p className="text-xs font-semibold text-emerald-700">
+                        {uploadedPhotos.length} photo(s) selected
+                      </p>
+                    </div>
                   )}
                 </label>
               </div>
@@ -490,25 +611,25 @@ export default function SignUpPage() {
 
           {/* Terms & Conditions */}
           <div className="mb-5 sm:mb-6">
-            <label className="flex items-start gap-2 sm:gap-3 cursor-pointer">
+            <label className="flex items-start gap-2 sm:gap-3 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
-                className="mt-0.5 sm:mt-1 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                className="mt-0.5 sm:mt-1 h-4 w-4 rounded-md border-2 border-gray-300 text-emerald-600 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all cursor-pointer"
               />
               <span className="text-xs sm:text-sm text-gray-700">
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="font-medium text-emerald-600 hover:text-emerald-700"
+                  className="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline transition-all"
                 >
                   Terms & Conditions
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="font-medium text-emerald-600 hover:text-emerald-700"
+                  className="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline transition-all"
                 >
                   Privacy Policy
                 </Link>
@@ -518,40 +639,42 @@ export default function SignUpPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-4">
-              <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="mb-5 rounded-xl bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-200 p-4 animate-shake">
+              <div className="flex items-start gap-3">
+                <svg className="h-6 w-6 text-red-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm font-medium text-red-700">{error}</p>
+                <p className="text-sm font-semibold text-red-800">{error}</p>
               </div>
             </div>
           )}
 
           {/* Success Message */}
           {successMessage && (
-            <div className="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 p-4">
-              <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="mb-5 rounded-xl bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-emerald-200 p-4 animate-fade-in">
+              <div className="flex items-start gap-3">
+                <svg className="h-6 w-6 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm font-medium text-emerald-700">{successMessage}</p>
+                <div>
+                  <p className="text-sm font-semibold text-emerald-800">{successMessage}</p>
+                  <p className="mt-1 text-xs text-emerald-600">Redirecting to login...</p>
+                </div>
               </div>
-              <p className="mt-2 text-xs text-emerald-600">Redirecting to login...</p>
             </div>
           )}
 
           {/* AI Insights Display */}
           {clipInsights && (
-            <div className="mb-4 rounded-lg bg-yellow-50 border border-yellow-200 p-4">
-              <h4 className="text-sm font-semibold text-yellow-800 mb-2 flex items-center gap-2">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="mb-5 rounded-xl bg-gradient-to-r from-yellow-50 to-amber-50 border-2 border-yellow-200 p-4 animate-fade-in">
+              <h4 className="text-sm font-bold text-yellow-800 mb-2 flex items-center gap-2">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 AI Style Analysis
               </h4>
               <p className="text-xs text-yellow-700">
-                Detected: <span className="font-semibold capitalize">{clipInsights.top_label}</span>
+                Detected: <span className="font-bold capitalize">{clipInsights.top_label}</span>
                 <span className="ml-2 text-yellow-600">({Math.round(clipInsights.top_confidence * 100)}% confidence)</span>
               </p>
             </div>
@@ -561,53 +684,181 @@ export default function SignUpPage() {
           <button
             type="submit"
             disabled={!agreeToTerms || !fullName || !email || !password || !gender || isLoading}
-            className="mb-3 sm:mb-4 w-full rounded-lg bg-gradient-to-r from-emerald-600 to-yellow-500 py-2.5 sm:py-3 text-base sm:text-lg font-semibold text-white hover:from-emerald-500 hover:to-yellow-400 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            className="mb-3 sm:mb-4 w-full relative group rounded-xl py-3 sm:py-4 text-base sm:text-lg font-bold text-white transition-all duration-300 disabled:cursor-not-allowed overflow-hidden"
           >
-            {isLoading ? (
-              <>
-                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Creating Account...
-              </>
-            ) : (
-              "Create Account"
-            )}
+            <div className={`absolute inset-0 bg-gradient-to-r from-emerald-600 via-emerald-500 to-yellow-500 transition-all duration-300 ${!agreeToTerms || !fullName || !email || !password || !gender || isLoading ? 'opacity-40' : 'group-hover:scale-105'}`}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center justify-center gap-2">
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating Account...
+                </>
+              ) : (
+                <>
+                  Create Account
+                  <svg
+                    className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </>
+              )}
+            </div>
           </button>
 
           {/* Login Link */}
-          <p className="text-center text-xs sm:text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link
-              href="/signin"
-              className="font-semibold text-emerald-600 hover:text-emerald-700"
-            >
-              Sign In
-            </Link>
-          </p>
+          <div className="text-center">
+            <p className="text-xs sm:text-sm text-gray-600">
+              Already have an account?{" "}
+              <Link
+                href="/signin"
+                className="font-bold text-transparent bg-gradient-to-r from-emerald-600 to-yellow-600 bg-clip-text hover:from-emerald-500 hover:to-yellow-500 transition-all"
+              >
+                Sign In →
+              </Link>
+            </p>
+          </div>
         </form>
 
         {/* Footer Note */}
-        <div className="mt-4 sm:mt-6 text-center">
-          <p className="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-600">
-            <svg
-              className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-            Secure & Private
-          </p>
+        <div className="mt-6 sm:mt-8 text-center space-y-4 animate-fade-in">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm flex-wrap">
+            <p className="flex items-center gap-2 text-gray-600">
+              <svg
+                className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span className="font-medium">Secure & Private</span>
+            </p>
+            <p className="flex items-center gap-2 text-gray-600">
+              <svg
+                className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+              <span className="font-medium">SSL Encrypted</span>
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        
+        @keyframes fade-in-down {
+          0% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fade-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-4px);
+          }
+          20%, 40%, 60%, 80% {
+            transform: translateX(4px);
+          }
+        }
+        
+        :global(.animate-blob) {
+          animation: blob 7s infinite;
+        }
+        
+        :global(.animate-shake) {
+          animation: shake 0.5s ease-in-out;
+        }
+        
+        :global(.animation-delay-2000) {
+          animation-delay: 2s;
+        }
+        
+        :global(.animation-delay-4000) {
+          animation-delay: 4s;
+        }
+        
+        :global(.animate-fade-in-down) {
+          animation: fade-in-down 0.6s ease-out;
+        }
+        
+        :global(.animate-fade-in-up) {
+          animation: fade-in-up 0.6s ease-out 0.2s both;
+        }
+        
+        :global(.animate-fade-in) {
+          animation: fade-in 0.8s ease-out 0.4s both;
+        }
+      `}</style>
     </div>
   );
 }
