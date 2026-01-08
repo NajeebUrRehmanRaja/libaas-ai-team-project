@@ -1,12 +1,74 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import pic1 from '../../assets/pic-1.jpeg';
 import pic2 from '../../assets/pic-2.jpeg';
 import pic3 from '../../assets/pic-3.jpeg';
 import pic4 from '../../assets/Najeeb - ur - Rehman - Raja.png';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+// Marquee Component - Continuous scrolling from left to right
+interface MarqueeProps {
+  children: React.ReactNode;
+  direction?: 'left' | 'right';
+  speed?: number;
+  pauseOnHover?: boolean;
+}
+
+const Marquee = ({ children, direction = 'right', speed = 30, pauseOnHover = true }: MarqueeProps) => {
+  return (
+    <>
+      <div 
+        className="overflow-hidden w-full"
+      >
+        <div 
+          className="flex w-max"
+          style={{
+            animation: `marquee-${direction} ${speed}s linear infinite`,
+            animationPlayState: 'running',
+          }}
+          onMouseEnter={(e) => {
+            if (pauseOnHover) {
+              e.currentTarget.style.animationPlayState = 'paused';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (pauseOnHover) {
+              e.currentTarget.style.animationPlayState = 'running';
+            }
+          }}
+        >
+          {/* First set of images */}
+          <div className="flex flex-shrink-0">
+            {children}
+          </div>
+          {/* Duplicate for seamless continuous loop */}
+          <div className="flex flex-shrink-0">
+            {children}
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
+        @keyframes marquee-right {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        @keyframes marquee-left {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
+    </>
+  );
+};
 
 interface SliderImage {
   src: string | StaticImageData;
@@ -60,51 +122,21 @@ const createImagePairs = (images: SliderImage[]): ImagePair[] => {
 export default function Slider({
   images = defaultImages,
   autoPlay = true,
-  autoPlayInterval = 2000, // Changed to 2 seconds
+  autoPlayInterval = 2000,
 }: SliderProps) {
   const imagePairs = createImagePairs(images);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isFlipped, setIsFlipped] = useState(false);
+  // Track flip state for each image individually
+  const [flippedStates, setFlippedStates] = useState<boolean[]>(
+    new Array(imagePairs.length).fill(false)
+  );
 
-  const goToPrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setIsFlipped(false); // Reset flip on navigation
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? imagePairs.length - 1 : prevIndex - 1
-    );
-    setTimeout(() => setIsTransitioning(false), 500);
+  const handleFlip = (index: number, isFlipped: boolean) => {
+    setFlippedStates((prev) => {
+      const newStates = [...prev];
+      newStates[index] = isFlipped;
+      return newStates;
+    });
   };
-
-  const goToNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setIsFlipped(false); // Reset flip on navigation
-    setCurrentIndex((prevIndex) =>
-      prevIndex === imagePairs.length - 1 ? 0 : prevIndex + 1
-    );
-    setTimeout(() => setIsTransitioning(false), 500);
-  };
-
-  const goToSlide = (index: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setIsFlipped(false); // Reset flip on navigation
-    setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 500);
-  };
-
-  // Auto-play effect - slides automatically every 2 seconds
-  useEffect(() => {
-    if (!autoPlay) return;
-
-    const interval = setInterval(() => {
-      goToNext();
-    }, autoPlayInterval);
-
-    return () => clearInterval(interval);
-  }, [currentIndex, autoPlay, autoPlayInterval]);
 
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -117,123 +149,72 @@ export default function Slider({
             Discover versatile fashion styles powered by AI. Hover to see the transformation!
           </p>
         </div>
-
-        <div className="relative max-w-5xl mx-auto">
-          {/* Main Slider Container */}
-          <div className="relative overflow-hidden rounded-2xl">
-            {/* Images with Flip Effect */}
-            <div className="relative w-full h-[500px]" style={{ perspective: '1000px' }}>
-              {imagePairs.map((pair, index) => (
+        <div className="w-full bg-gray-200 px-2 py-2 rounded-lg overflow-hidden">
+          <Marquee direction="right" speed={10} pauseOnHover={true}>
+            {imagePairs.map((pair, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[300px] h-[550px] mx-4"
+                style={{ perspective: '1000px' }}
+              >
+                {/* Flip Card Container */}
                 <div
-                  key={index}
-                  className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                    index === currentIndex
-                      ? 'opacity-100 translate-x-0'
-                      : index < currentIndex
-                      ? 'opacity-0 -translate-x-full'
-                      : 'opacity-0 translate-x-full'
-                  }`}
+                  className="relative w-full h-full cursor-pointer"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transition: 'transform 0.7s',
+                    transform: flippedStates[index] ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                  }}
+                  onMouseEnter={() => handleFlip(index, true)}
+                  onMouseLeave={() => handleFlip(index, false)}
                 >
-                  {/* Flip Card Container */}
+                  {/* Front Side (Before) */}
                   <div
-                    className="relative w-full h-full cursor-pointer"
+                    className="absolute inset-0 rounded-lg overflow-hidden"
                     style={{
-                      transformStyle: 'preserve-3d',
-                      transition: 'transform 0.7s',
-                      transform: isFlipped && index === currentIndex ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
                     }}
-                    onMouseEnter={() => index === currentIndex && setIsFlipped(true)}
-                    onMouseLeave={() => index === currentIndex && setIsFlipped(false)}
                   >
-                    {/* Front Side (Before) */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backfaceVisibility: 'hidden',
-                        WebkitBackfaceVisibility: 'hidden',
-                      }}
-                    >
-                      <Image
-                        src={pair.front.src}
-                        alt={pair.front.alt}
-                        fill
-                        className="object-contain"
-                        priority={index === 0}
-                        draggable={false}
-                      />
-                      {/* Before Tag */}
-                      <div className="absolute top-6 left-6 bg-orange-500 text-white px-5 py-2 rounded-full text-lg font-bold shadow-lg">
-                        Before
-                      </div>
+                    <Image
+                      src={pair.front.src}
+                      alt={pair.front.alt}
+                      fill
+                      className="object-cover"
+                      priority={index === 0}
+                      draggable={false}
+                    />
+                    {/* Before Tag */}
+                    <div className="absolute top-2 left-2 bg-orange-500 text-white px-3 py-1 rounded-r-full text-xs font-bold shadow-lg">
+                      Before
                     </div>
+                  </div>
 
-                    {/* Back Side (After) */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backfaceVisibility: 'hidden',
-                        WebkitBackfaceVisibility: 'hidden',
-                        transform: 'rotateY(180deg)',
-                      }}
-                    >
-                      <Image
-                        src={pair.back.src}
-                        alt={pair.back.alt}
-                        fill
-                        className="object-contain"
-                        draggable={false}
-                      />
-                      {/* After Tag */}
-                      <div className="absolute top-6 left-6 bg-green-500 text-white px-5 py-2 rounded-full text-lg font-bold shadow-lg">
-                        After
-                      </div>
+                  {/* Back Side (After) */}
+                  <div
+                    className="absolute inset-0 rounded-lg overflow-hidden"
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)',
+                    }}
+                  >
+                    <Image
+                      src={pair.back.src}
+                      alt={pair.back.alt}
+                      fill
+                      className="object-cover"
+                      draggable={false}
+                    />
+                    {/* After Tag */}
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-l-full text-xs font-bold shadow-lg">
+                      After
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={goToPrevious}
-              disabled={isTransitioning}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed z-10"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <button
-              onClick={goToNext}
-              disabled={isTransitioning}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed z-10"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-
-            {/* Slide Counter */}
-            <div className="absolute top-4 right-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm z-10">
-              {currentIndex + 1} / {imagePairs.length}
-            </div>
-          </div>
-
-          {/* Dot Indicators */}
-          <div className="flex justify-center items-center gap-3 mt-8">
-            {imagePairs.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                disabled={isTransitioning}
-                className={`transition-all duration-300 rounded-full ${
-                  index === currentIndex
-                    ? 'bg-purple-600 w-12 h-3'
-                    : 'bg-gray-300 hover:bg-gray-400 w-3 h-3'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
+              </div>
             ))}
-          </div>
+          </Marquee>
         </div>
       </div>
     </section>
