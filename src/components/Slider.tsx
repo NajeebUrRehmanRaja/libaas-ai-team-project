@@ -6,6 +6,24 @@ import pic1 from '../../assets/pic-1.jpeg';
 import pic2 from '../../assets/pic-2.jpeg';
 import pic3 from '../../assets/pic-3.jpeg';
 import pic4 from '../../assets/Najeeb - ur - Rehman - Raja.png';
+import user1 from '../../assets/user-1.jpg';
+import user2 from '../../assets/user-2.png';
+import user3 from '../../assets/user-3.jpg';
+import user4 from '../../assets/user-4.png';
+import user5 from '../../assets/user-5.jpg';
+import user6 from '../../assets/user-6.png';
+import user7 from '../../assets/user-7.webp';
+import user8 from '../../assets/user-8.png';
+import user9 from '../../assets/user-9.jpg';
+import user10 from '../../assets/user-10.png';
+import user11 from '../../assets/user-11.jpg';
+import user12 from '../../assets/user-12.png';
+import user13 from '../../assets/user-13.jpg';
+import user14 from '../../assets/user-14.png';
+import user15 from '../../assets/user-15.webp';
+import user16 from '../../assets/user-16.png';
+import user19 from '../../assets/user-19.jpg';
+import user20 from '../../assets/user-20.png';
 
 // Marquee Component - Continuous scrolling from left to right
 interface MarqueeProps {
@@ -105,6 +123,78 @@ const defaultImages: SliderImage[] = [
     src: pic3,
     alt: 'Smart Casual Professional',
   },
+  {
+    src: user1,
+    alt: 'User 1',
+  },
+  {
+    src: user2,
+    alt: 'User 2',
+  },
+  {
+    src: user3,
+    alt: 'User 3',
+  },
+  {
+    src: user4,
+    alt: 'User 4',
+  },
+  {
+    src: user5,
+    alt: 'User 5',
+  },
+  {
+    src: user6,
+    alt: 'User 6',
+  },
+  {
+    src: user7,
+    alt: 'User 7',
+  },
+  {
+    src: user8,
+    alt: 'User 8',
+  },
+  {
+    src: user9,
+    alt: 'User 9',
+  },
+  {
+    src: user10,
+    alt: 'User 10',
+  },
+  {
+    src: user11,
+    alt: 'User 11',
+  },
+  {
+    src: user12,
+    alt: 'User 12',
+  },
+  {
+    src: user13,
+    alt: 'User 13',
+  },
+  {
+    src: user14,
+    alt: 'User 14',
+  },
+  {
+    src: user15,
+    alt: 'User 15',
+  },
+  {
+    src: user16,
+    alt: 'User 16',
+  },
+  {
+    src: user19,
+    alt: 'User 19',
+  },
+  {
+    src: user20,
+    alt: 'User 20',
+  },
 ];
 
 // Create pairs of images for flip effect
@@ -140,7 +230,7 @@ export default function Slider({
 
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <div className="max-w-3xl mx-auto">
+      <div className="w-full">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Style Transformations
@@ -149,8 +239,8 @@ export default function Slider({
             Discover versatile fashion styles powered by AI. Hover to see the transformation!
           </p>
         </div>
-        <div className="w-full bg-gray-200 px-2 py-2 rounded-lg overflow-hidden">
-          <Marquee direction="right" speed={10} pauseOnHover={true}>
+        <div className="w-full bg-gray-200 px-2 py-2 rounded-lg">
+          <Marquee direction="right" speed={20} pauseOnHover={true}>
             {imagePairs.map((pair, index) => (
               <div
                 key={index}
