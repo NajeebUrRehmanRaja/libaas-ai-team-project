@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import os 
 
-from app.auth.routes import router as auth_router
-from app.wardrobe.routes import router as wardrobe_router
-from app.ai.clip_insights import load_clip_model
+from app.routes.auth import router as auth_router
+from app.routes.wardrobe import router as wardrobe_router
+from app.components.ai.clip_insights import load_clip_model
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -26,12 +27,13 @@ app = FastAPI(
 )
 
 # CORS configuration
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 # Include routers

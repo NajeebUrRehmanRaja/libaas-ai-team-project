@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface ClipInsights {
   top_label: string;
@@ -171,29 +171,29 @@ export default function SignUpPage() {
       }
 
       // Send request to backend
-      // const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-      //   method: "POST",
-      //   body: formData,
-      // });
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+        method: "POST",
+        body: formData,
+      });
 
-      // const data = await response.json();
+      const data = await response.json();
 
-      // if (!response.ok) {
-      //   throw new Error(data.detail || "Signup failed");
-      // }
+      if (!response.ok) {
+        throw new Error(data.detail || "Signup failed");
+      }
 
       // Success!
-      // const result = data as SignupResponse;
-      // setSuccessMessage(result.message);
+      const result = data as SignupResponse;
+      setSuccessMessage(result.message);
       
-      // if (result.clip_insights) {
-      //   setClipInsights(result.clip_insights);
-      // }
+      if (result.clip_insights) {
+        setClipInsights(result.clip_insights);
+      }
 
       // Redirect to signin after 2 seconds
-      // setTimeout(() => {
-      //   router.push("/signin");
-      // }, 2000);
+      setTimeout(() => {
+        router.push("/signin");
+      }, 2000);
 
     } catch (err) {
       console.error("Signup error:", err);

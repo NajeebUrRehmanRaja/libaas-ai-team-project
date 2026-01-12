@@ -7,10 +7,10 @@ from fastapi.responses import JSONResponse
 from typing import Optional
 import json
 
-from app.database import create_user, get_user_by_email, upload_image_to_storage
+from app.core.database import create_user, get_user_by_email, upload_image_to_storage
 from app.schemas import SignupResponse, LoginRequest, LoginResponse, ClipInsights
-from app.auth.utils import hash_password, verify_password, generate_unique_filename, validate_image_type
-from app.ai.clip_insights import analyze_image
+from app.components.auth.utils import hash_password, verify_password, generate_unique_filename, validate_image_type
+from app.components.ai.clip_insights import analyze_image
 
 router = APIRouter()
 
@@ -115,17 +115,27 @@ async def login(credentials: LoginRequest):
     """
     Authenticate user with email and password.
     """
+    print(f"Login attempt for: {credentials.email}")
     try:
         # Get user by email
+        print("Fetching user from DB...")
         user = await get_user_by_email(credentials.email)
+        print(f"User fetch result: {user is not None}")
         
         if not user:
+            print("User not found")
             raise HTTPException(status_code=401, detail="Invalid email or password")
         
         # Verify password
-        if not verify_password(credentials.password, user["password_hash"]):
+        print("Verifying password...")
+        is_valid = verify_password(credentials.password, user["password_hash"])
+        print(f"Password valid: {is_valid}")
+        
+        if not is_valid:
+            print("Invalid password")
             raise HTTPException(status_code=401, detail="Invalid email or password")
         
+        print("Login successful, returning response")
         return {
             "message": "Login successful",
             "user_id": user["id"],
@@ -144,8 +154,8 @@ async def get_profile(user_id: str):
     """
     Get user profile by ID with personalized fashion recommendations.
     """
-    from app.database import get_user_by_id
-    from app.ai.fashion_recommendations import generate_recommendations
+    from app.core.database import get_user_by_id
+    from app.components.ai.fashion_recommendations import generate_recommendations
     
     try:
         user = await get_user_by_id(user_id)
@@ -192,8 +202,8 @@ async def update_profile_photo(
     Returns:
         JSON response with new image URL
     """
-    from app.database import get_user_by_id, supabase
-    from app.auth.utils import generate_unique_filename, validate_image_type
+    from app.core.database import get_user_by_id, supabase
+    from app.components.auth.utils import generate_unique_filename, validate_image_type
     
     try:
         # Validate user exists

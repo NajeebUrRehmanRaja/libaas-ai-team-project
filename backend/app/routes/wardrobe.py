@@ -11,7 +11,7 @@ from datetime import datetime
 import tempfile
 import os
 
-from app.database import (
+from app.core.database import (
     create_wardrobe_item,
     get_user_wardrobe,
     delete_wardrobe_item,
@@ -19,9 +19,9 @@ from app.database import (
     upload_wardrobe_image,
     upload_tryon_image
 )
-from app.ai.wardrobe_classifier import WardrobeClassifier
-from app.ai.virtual_tryon import get_virtual_tryon_service
-from app.ai.outfit_generator import generate_outfit_recommendations
+from app.components.ai.wardrobe_classifier import WardrobeClassifier
+from app.components.ai.virtual_tryon import get_virtual_tryon_service
+from app.components.ai.outfit_generator import generate_outfit_recommendations
 
 router = APIRouter(prefix="/wardrobe", tags=["wardrobe"])
 
@@ -208,7 +208,7 @@ async def recategorize_all_items(user_id: str):
     Useful for items that were uploaded before Fashion-CLIP was working.
     """
     try:
-        from app.database import get_user_wardrobe, update_wardrobe_item
+        from app.core.database import get_user_wardrobe, update_wardrobe_item
         from PIL import Image
         import requests
         from io import BytesIO
@@ -344,9 +344,9 @@ async def generate_outfit_looks(
         List of generated outfit looks with try-on images
     """
     try:
-        from app.database import get_user_wardrobe, get_user_by_id, upload_wardrobe_image
-        from app.ai.outfit_recommender import get_outfit_recommender
-        from app.ai.virtual_tryon import get_virtual_tryon_service
+        from app.core.database import get_user_wardrobe, get_user_by_id, upload_wardrobe_image
+        from app.components.ai.outfit_recommender import get_outfit_recommender
+        from app.components.ai.virtual_tryon import get_virtual_tryon_service
         import asyncio
         
         print(f"[GENERATE] Generating {num_looks} looks for user {user_id} ({event_type} event)")
@@ -537,7 +537,7 @@ async def generate_outfit_recommendations_endpoint(
         
         # Get user profile from database
         # Get user profile and wardrobe from database
-        from app.database import get_user_by_id, get_user_wardrobe
+        from app.core.database import get_user_by_id, get_user_wardrobe
         user_profile = await get_user_by_id(user_id)
         wardrobe_items = await get_user_wardrobe(user_id)
         
